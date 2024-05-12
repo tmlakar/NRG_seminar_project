@@ -1,0 +1,23 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CS_Clear
+#pragma kernel CS_Static
+
+
+RWTexture2D<float4> Result;
+RWStructuredBuffer<int> _Voxels;
+
+float3 _VoxelResolution, _BoundsExtent;
+
+[numthreads(8,8,1)]
+void CS_Clear (uint3 id : SV_DispatchThreadID)
+{
+    // empty voxel
+    _Voxels[id.x] = 0;
+}
+
+[numthreads(8,8,1)]
+void CS_Static (uint3 id : SV_DispatchThreadID)
+{
+    // static voxel
+    _Voxels[id.x] = 1;
+}

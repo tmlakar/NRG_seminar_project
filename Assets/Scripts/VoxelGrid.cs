@@ -1,15 +1,43 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 public class VoxelGrid : MonoBehaviour
 {
-    public Vector3 boundsExtent = new Vector3(10, 10, 10);
-
+    // gizmo
+    public bool drawVoxelGridGizmo = true;
+    public bool drawBoxGizmo = true;
+    
+    public Vector3 boundsExtent = new Vector3(50, 5, 50);
     public float voxelSize = 0.5f;
 
-    public int voxelsX, voxelsY, voxelsZ, numberOfVoxels;
-
+    private ComputeBuffer _voxelsBuffer;
+    private ComputeBuffer _staticVoxelsBuffer;
+    private ComputeBuffer _smokeVoxelsBuffer;
+    private ComputeBuffer _argsBuffer;
+    
+    private Material _voxelGridVisualization;
+    private ComputeShader _voxelizeCompute;
+    
+    private int voxelsX, voxelsY, voxelsZ, numberOfVoxels;
+    
+    public Mesh debugMesh;
+    
+    private Bounds debugBounds;
+    
+    public int MaxFillSteps = 0;
+    
+    public bool drawVoxelGrid = true;
+    public bool debugAllVoxels = true;
+    public bool debugStaticVoxels = false;
+    public bool debugSmokeVoxels = false;
+    public bool debugEdgeVoxels = false;
+ 
     public Vector3 GetVoxelResolution() {
         return new Vector3(voxelsX, voxelsY, voxelsZ);
     }
@@ -21,37 +49,145 @@ public class VoxelGrid : MonoBehaviour
     public float GetVoxelSize() {
         return voxelSize;
     }
+    
+    
 
+   private void OnEnable()
+   {
+       // Debug.Log("Object enabled:" + gameObject.name);
+       
+       // create a voxel grid
+       Vector3 boundsSize = boundsExtent * 2;
+       debugBounds = new Bounds(new Vector3(0, boundsExtent.y, 0), boundsSize);
+       
+       // calculate number of voxels in each direction
+       voxelsX = Mathf.CeilToInt(boundsSize.x / voxelSize);
+       voxelsY = Mathf.CeilToInt(boundsSize.y / voxelSize);
+       voxelsZ = Mathf.CeilToInt(boundsSize.z / voxelSize);
+
+       // get full voxel grid resolution
+       numberOfVoxels = voxelsX * voxelsY * voxelsZ;
+       // Debug.Log("Number of voxels:" + numberOfVoxels);
+       
+       // compute buffer for voxel grid
+       _voxelsBuffer = new ComputeBuffer(numberOfVoxels, 4);
+       
+       // material / shader for visualizing voxels
+       _voxelGridVisualization = new Material(Shader.Find("Custom/VisualizeVoxels1"));
+       if (_voxelGridVisualization == null)
+       {
+           Debug.Log("Shader for visualizing voxels not found!");
+       }
+
+       // compute buffer for representation of static object in the scene
+       _staticVoxelsBuffer = new ComputeBuffer(numberOfVoxels, 4);
+       // compute buffer for representation of smoke
+       _smokeVoxelsBuffer = new ComputeBuffer(numberOfVoxels, 4);
+       Debug.Log("Length:" + _staticVoxelsBuffer.count);
+       
+       // compute shader for voxelization of the scene
+       _voxelizeCompute = (ComputeShader)Resources.Load("VoxelGrid");
+       if (_voxelizeCompute == null)
+       {
+           Debug.Log("Compute shader not found!");
+       }
+       
+       // fill buffer
+       _voxelizeCompute.SetBuffer(1, "_Voxels", _voxelsBuffer);
+       _voxelizeCompute.Dispatch(1, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+       
+       _voxelizeCompute.SetBuffer(0, "_Voxels", _smokeVoxelsBuffer);
+       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+       
+       _voxelizeCompute.SetBuffer(0, "_Voxels", _staticVoxelsBuffer);
+       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+       
+       // TODO voxelization of the scene 
+       
+       // args buffer for Graphics Rendering
+       _argsBuffer = new ComputeBuffer(1, 5 * sizeof(uint), ComputeBufferType.IndirectArguments);
+       uint[] args = new uint[5] { 0, 0, 0, 0, 0 };
+       args[0] = (uint)debugMesh.GetIndexCount(0);
+       args[1] = (uint)numberOfVoxels;
+       args[2] = (uint)debugMesh.GetIndexStart(0);
+       args[3] = (uint)debugMesh.GetBaseVertex(0);
+       _argsBuffer.SetData(args);
+   }
    
 
-   // rendering the smoke
+   
+   Vector3 CalculateVoxelPosition(int index)
+   {
+       // calculating position of voxel based on index for use of gizmo visualization
+       Vector3 positionOffet = new Vector3(0, boundsExtent.y, 0);
+       Vector3 boundsSize = boundsExtent * 2;
+       voxelsX = Mathf.CeilToInt(boundsSize.x / voxelSize);
+       voxelsY = Mathf.CeilToInt(boundsSize.y / voxelSize);
+       int x = index % voxelsX;
+       int y = (index / voxelsX) % voxelsY;
+       int z = index / (voxelsX * voxelsY);
 
+       Vector3 voxelPosition = transform.position + positionOffet + new Vector3(x + 0.5f, y + 0.5f, z + 0.5f) * voxelSize - boundsExtent;
 
-   // easing function
-   float  Easing(float x) {
-        float ease = 0.0f;
-    
-        if (x < 0.5f) {
-            ease = 2*x*x;
-        } else {
-            ease = 1.0f - (1.0f / (5.0f * (2.0f * x - 0.8f) + 1));
-        }
-    
-        return Mathf.Min(1.0f, ease);
+       return voxelPosition;
    }
+   
+   // draw bounding box / voxel grid - gizmo visualization
+   void OnDrawGizmos()
+   {
+       if (!Application.isPlaying)
+       {
+           Vector3 positionOffet = new Vector3(0, boundsExtent.y, 0);
+           // bounding box wireframe
+           if (drawBoxGizmo)
+           {
+               Gizmos.color = Color.red;
+               Gizmos.DrawWireCube(transform.position + positionOffet, boundsExtent * 2);  
+           }
 
+           // voxel grid
+           Vector3 voxelPosition = new Vector3(0, 0, 0);
 
+           if (drawVoxelGridGizmo)
+           {
+               for (int i = 0; i < 43200; i++)
+               {
+                   voxelPosition = CalculateVoxelPosition(i);
+                   // Debug.Log(voxelPosition);
+                   Gizmos.color = Color.green;
+                   Gizmos.DrawCube(voxelPosition, Vector3.one * voxelSize);
+               }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+           }
+       }
+   }
+   
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (drawVoxelGrid)
+        {
+            // draw the full voxel grid resolution
+            _voxelGridVisualization.SetBuffer("_Voxels", _voxelsBuffer);
+            _voxelGridVisualization.SetBuffer("_StaticVoxels", _staticVoxelsBuffer);
+            _voxelGridVisualization.SetBuffer("_SmokeVoxels", _smokeVoxelsBuffer);
+            _voxelGridVisualization.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+            _voxelGridVisualization.SetVector("_BoundsExtent", boundsExtent);
+            _voxelGridVisualization.SetFloat("_VoxelSize", voxelSize);
+            _voxelGridVisualization.SetInt("_MaxFillSteps", MaxFillSteps);
+            _voxelGridVisualization.SetInt("_DebugSmokeVoxels", debugAllVoxels ? 1 : 0);
+            _voxelGridVisualization.SetInt("_DebugSmokeVoxels", debugSmokeVoxels ? 1 : 0);
+            _voxelGridVisualization.SetInt("_DebugStaticVoxels", debugStaticVoxels ? 1 : 0);
+            
+            Graphics.DrawMeshInstancedIndirect(debugMesh, 0, _voxelGridVisualization, debugBounds, _argsBuffer);
+        }
+
+    }
+
+    private void OnDisable()
+    {
+        _staticVoxelsBuffer.Release();
+        _smokeVoxelsBuffer.Release();
     }
 }

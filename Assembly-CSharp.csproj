@@ -46,7 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\VoxelGrid.cs" />
-    <None Include="Assets\Scripts\VoxelGrid.compute" />
+    <None Include="Assets\Resources\VisualizeVoxels.shader" />
+    <None Include="Assets\Resources\VoxelGrid.compute" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.27f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
