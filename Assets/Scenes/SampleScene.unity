@@ -750,11 +750,9 @@ MonoBehaviour:
   voxelSize: 0.5
   debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   MaxFillSteps: 15
-  drawVoxelGrid: 1
-  debugAllVoxels: 1
-  debugStaticVoxels: 0
-  debugSmokeVoxels: 0
-  debugEdgeVoxels: 0
+  drawVoxelGrid: 0
+  drawSmoke: 1
+  drawStaticScene: 0
 --- !u!1 &1066895838
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,7 +1374,7 @@ GameObject:
   - component: {fileID: 1979185905}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1422,7 +1420,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 63
+  field of view: 34
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1449,7 +1447,7 @@ Transform:
   m_GameObject: {fileID: 1979185904}
   serializedVersion: 2
   m_LocalRotation: {x: 0.11779734, y: 0, z: 0, w: 0.9930377}
-  m_LocalPosition: {x: 0, y: 9.5, z: -31.1}
+  m_LocalPosition: {x: 0.01, y: 7.7, z: -25.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

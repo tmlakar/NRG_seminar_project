@@ -31,12 +31,13 @@ Shader "Custom/VisualizeVoxels1" {
                 float3 hashCol : TEXCOORD0;
 				float3 normal : TEXCOORD1;
 			};
-
-            float hash(uint n) {
-                // integer hash copied from Hugo Elias
+			
+            float grayscaleHash(uint n) {
                 n = (n << 13U) ^ n;
-                n = n * (n * n * 15731U + 0x789221U) + 0x1376312589U;
-                return float(n & uint(0x7fffffffU)) / float(0x7fffffff);
+			    n = n * (n * n * 15731U + 0x789221U) + 0x1376312589U;
+				
+			    // return value between 0 and 1
+			    return frac(sin(float(n)) * 43758.5453123);	
             }
 
 			// convert one dimensional index to three dimensional position in the voxel grid
@@ -52,7 +53,8 @@ Shader "Custom/VisualizeVoxels1" {
 				i.pos = UnityObjectToClipPos((v.vertex + float3(x, y, z)) * _VoxelSize + _positionOffset + (_VoxelSize * 0.5f) - _BoundsExtent);
 
 				if (_DebugSmokeVoxels)
-					i.pos *= saturate(_SmokeVoxels[instanceID]);
+					//i.pos *= saturate(_SmokeVoxels[instanceID]);
+            		i.pos *= _SmokeVoxels[instanceID];
 				if (_DebugStaticVoxels)
 					i.pos *= _StaticVoxels[instanceID];
             	if (_DebugAllVoxels)
@@ -60,16 +62,17 @@ Shader "Custom/VisualizeVoxels1" {
 
 				
 				i.normal = UnityObjectToWorldNormal(v.normal);
-                i.hashCol = float3(hash(instanceID), hash(instanceID * 2), hash(instanceID * 3));
-
+                i.hashCol = float3(grayscaleHash(instanceID), grayscaleHash(instanceID), grayscaleHash(instanceID));
+				
 				return i;
 			}
 
 			float4 fp(v2f i) : SV_TARGET {
                 float3 ndotl = DotClamped(_WorldSpaceLightPos0.xyz, i.normal) * 0.5f + 0.5f;
                 ndotl *= ndotl;
-
+				
 				return float4(i.hashCol * ndotl, 1.0f);
+
 			}
 
 			ENDCG

@@ -1,23 +1,73 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel CS_Clear
 #pragma kernel CS_Static
-
+#pragma kernel CS_SmokeOrigin
+#pragma kernel CS_FillSmoke
+#pragma kernel CS_VoxelizeScene
 
 RWTexture2D<float4> Result;
 RWStructuredBuffer<int> _Voxels;
+RWStructuredBuffer<int> _SmokeVoxels;
+RWStructuredBuffer<int> _StaticVoxels;
 
-float3 _VoxelResolution, _BoundsExtent;
+float3 _VoxelResolution, _BoundsExtent, _Radius, _SmokeOrigin;
+float _VoxelSize;
+int _MaxFillStep;
 
-[numthreads(8,8,1)]
+uint to1D(uint3 pos) {
+    return pos.x + pos.y * _VoxelResolution.x + pos.z * _VoxelResolution.x * _VoxelResolution.y;
+}
+
+uint3 to3D(uint idx) {
+    uint3 voxelRes = uint3(_VoxelResolution);
+    uint x = idx % (voxelRes.x);
+    uint y = (idx / voxelRes.x) % voxelRes.y;
+    uint z = idx / (voxelRes.x * voxelRes.y);
+
+    return uint3(x, y, z);
+}
+
+[numthreads(128,1,1)]
 void CS_Clear (uint3 id : SV_DispatchThreadID)
 {
     // empty voxel
     _Voxels[id.x] = 0;
 }
 
-[numthreads(8,8,1)]
+[numthreads(128,1,1)]
 void CS_Static (uint3 id : SV_DispatchThreadID)
 {
     // static voxel
     _Voxels[id.x] = 1;
+}
+
+[numthreads(128,1,1)]
+void CS_SmokeOrigin (uint3 id : SV_DispatchThreadID)
+{
+    // get world origin point of the smoke
+    float3 originPosition = _SmokeOrigin % _BoundsExtent;
+    // shift the position of the smoke - add offset maybe
+    originPosition.xz = originPosition.xz + _BoundsExtent.xz;
+    originPosition = originPosition / (_BoundsExtent * 2);
+    originPosition = originPosition * _VoxelResolution;
+
+    //_SmokeVoxels[to1D(originPosition)] = _MaxFillStep;
+    _SmokeVoxels[to1D(originPosition)] = 1;
+    
+    
+    // fill every voxel in the grid that is within a certain radius from the origin point
+    
+}
+
+[numthreads(8,8,1)]
+void CS_FillSmoke (uint3 id : SV_DispatchThreadID)
+{
+    
+}
+
+
+[numthreads(8,8,1)]
+void CS_VoxelizeScene (uint3 id : SV_DispatchThreadID)
+{
+    
 }
