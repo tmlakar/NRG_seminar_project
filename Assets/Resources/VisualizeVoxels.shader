@@ -15,7 +15,6 @@ Shader "Custom/VisualizeVoxels1" {
             StructuredBuffer<int> _SmokeVoxels;
             StructuredBuffer<int> _StaticVoxels;
 			StructuredBuffer<int> _Voxels;
-			float3 _positionOffset;
             float3 _BoundsExtent;
             uint3 _VoxelResolution;
             float _VoxelSize;
@@ -50,7 +49,7 @@ Shader "Custom/VisualizeVoxels1" {
                 uint z = instanceID / (_VoxelResolution.x * _VoxelResolution.y); // z = i / width*height
 
                 // to get world space, we multiply the position by the size of the voxel and substract the bounding box extent of the grid
-				i.pos = UnityObjectToClipPos((v.vertex + float3(x, y, z)) * _VoxelSize + _positionOffset + (_VoxelSize * 0.5f) - _BoundsExtent);
+				i.pos = UnityObjectToClipPos((v.vertex + float3(x, y, z)) * _VoxelSize + (_VoxelSize * 0.5f) - _BoundsExtent);
 
 				if (_DebugSmokeVoxels)
 					//i.pos *= saturate(_SmokeVoxels[instanceID]);

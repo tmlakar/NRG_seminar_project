@@ -750,8 +750,8 @@ MonoBehaviour:
   voxelSize: 0.5
   debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   MaxFillSteps: 15
-  drawVoxelGrid: 0
-  drawSmoke: 1
+  drawVoxelGrid: 1
+  drawSmoke: 0
   drawStaticScene: 0
 --- !u!1 &1066895838
 GameObject:
@@ -1447,7 +1447,7 @@ Transform:
   m_GameObject: {fileID: 1979185904}
   serializedVersion: 2
   m_LocalRotation: {x: 0.11779734, y: 0, z: 0, w: 0.9930377}
-  m_LocalPosition: {x: 0.01, y: 7.7, z: -25.5}
+  m_LocalPosition: {x: 0.01, y: 7.7, z: -29.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
