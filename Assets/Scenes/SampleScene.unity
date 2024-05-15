@@ -750,9 +750,10 @@ MonoBehaviour:
   voxelSize: 0.5
   debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   MaxFillSteps: 15
-  drawVoxelGrid: 1
-  drawSmoke: 0
+  drawVoxelGrid: 0
+  drawSmoke: 1
   drawStaticScene: 0
+  growthSpeed: 1
 --- !u!1 &1066895838
 GameObject:
   m_ObjectHideFlags: 0

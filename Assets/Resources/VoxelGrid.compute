@@ -13,6 +13,25 @@ RWStructuredBuffer<int> _StaticVoxels;
 float3 _VoxelResolution, _BoundsExtent, _Radius, _SmokeOrigin, _positionOffset;
 float _VoxelSize;
 int _MaxFillStep;
+float3 _VoxelPosition;
+
+
+float3 calculateVoxelCenterPosition(uint3 gridPosition)
+{
+    // map from grid resolution coordinates to shifted world coordinates
+    float3 shiftedWorldPos;
+    shiftedWorldPos.x = (gridPosition.x / _VoxelResolution.x) * (_BoundsExtent.x * 2);
+    shiftedWorldPos.z = (gridPosition.z / _VoxelResolution.z) * (_BoundsExtent.z * 2);
+    shiftedWorldPos.y = (gridPosition.y / _VoxelResolution.y) * (_BoundsExtent.y * 2);
+    
+    // map to world position
+    float3 worldPosition;
+    worldPosition.x = shiftedWorldPos.x - _BoundsExtent.x;
+    worldPosition.y = shiftedWorldPos.y;
+    worldPosition.z = shiftedWorldPos.z - _BoundsExtent.z;
+    
+    return worldPosition;
+}
 
 float3 shiftSmokeOriginPosition(float3 originPosition)
 {
@@ -48,12 +67,18 @@ uint to1D(float3 position) {
 }
 
 uint3 to3D(uint index) {
-    uint x = index % (_VoxelResolution.x);
-    uint y = (index / _VoxelResolution.x) % _VoxelResolution.y;
-    uint z = index / (_VoxelResolution.x * _VoxelResolution.y);
+    float x = index % (_VoxelResolution.x);
+    float y = (index / _VoxelResolution.x) % _VoxelResolution.y;
+    float z = index / (_VoxelResolution.x * _VoxelResolution.y);
 
-    return uint3(x, y, z);
+    uint positionX, positionY, positionZ;
+    positionX = Round(x);
+    positionY = Round(y);
+    positionZ = Round(z);
+    
+    return uint3(positionX, positionY, positionZ);
 }
+
 
 [numthreads(128,1,1)]
 void CS_Clear (uint id : SV_DispatchThreadID)
@@ -75,19 +100,41 @@ void CS_SmokeOrigin (uint id : SV_DispatchThreadID)
     float3 originPosition = _SmokeOrigin;
     originPosition = shiftSmokeOriginPosition(originPosition);
     uint voxelIndex = to1D(originPosition);
-    _SmokeVoxels[voxelIndex] = 1;
+    _SmokeVoxels[voxelIndex] = 15;
     
 }
 
-[numthreads(128,1,1)]
-void CS_FillSmoke (uint id : SV_DispatchThreadID)
+[numthreads(1,1,1)]
+void CS_FillSmoke (int3 id : SV_DispatchThreadID)
 {
-    // check if a voxel is within the smoke radius
     [branch]
-    if (0 <= id.x && id.x < _VoxelResolution) {
-        // calculate the world position of the voxel
-        // check if the position is inside the radius
+    if (id.x >= 0 && id.x < _VoxelResolution.x &&
+       id.y >= 0 && id.y < _VoxelResolution.y &&
+       id.z >= 0 && id.z < _VoxelResolution.z)
+    {
+        uint voxelIndex = id.x + id.y * _VoxelResolution.x + id.z * _VoxelResolution.x * _VoxelResolution.y;
+        if (_SmokeVoxels[voxelIndex] > 1)
+        {
+            _SmokeVoxels[voxelIndex] = 10;
+            // skip further computation for the voxel
+            return;
+        }
 
+        
+        // covert voxel index to 3D position in the voxel grid
+        uint3 voxelGridPosition = to3D(voxelIndex);
+        
+        // calculate the world position of the voxel
+        float3 worldPositionVoxel = calculateVoxelCenterPosition(voxelGridPosition);
+        float3 inR = worldPositionVoxel - _SmokeOrigin;
+        inR = inR/_Radius;
+        float distance = sqrt(inR.x*inR.x + inR.y*inR.y + inR.z*inR.z);
+
+        if (distance <= 1)
+        {
+            _SmokeVoxels[voxelIndex] = 1;
+        }
+        
     }
     
 }
@@ -98,3 +145,4 @@ void CS_VoxelizeScene (uint3 id : SV_DispatchThreadID)
 {
     
 }
+
