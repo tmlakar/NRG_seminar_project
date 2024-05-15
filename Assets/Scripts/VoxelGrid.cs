@@ -40,21 +40,20 @@ public class VoxelGrid : MonoBehaviour
     private bool _debugAllVoxels = false;
     private bool _debugStaticVoxels = false;
     private bool _debugSmokeVoxels = false;
-    // private bool _debugEdgeVoxels = false;
 
     private Vector3 _smokeOrigin;
     private float _radius;
     private bool _smokeConstantFill = false;
     // for animation
-    private bool _smokeIterateFill = false;
-    
+    private bool _smokeIterateFill = true;
     [Range(0.01f, 5.0f)]
     public float growthSpeed = 1.0f;
-    
+
+    private Vector3 maxRadius;
 
    private void OnEnable()
    {
-       
+       _radius = (float)0.0;
        // create a voxel grid
        Vector3 boundsSize = boundsExtent * 2;
        debugBounds = new Bounds(new Vector3(0, boundsExtent.y, 0), boundsSize);
@@ -148,6 +147,8 @@ public class VoxelGrid : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 300))
             {
+                _radius = (float)0.0;
+                maxRadius = new Vector3(5, 3, 5);
                 _smokeOrigin = hit.point;
                 //_smokeOrigin = new Vector3(0, 0, 0);
                 Debug.Log("Smoke origin: " + _smokeOrigin);
@@ -156,8 +157,8 @@ public class VoxelGrid : MonoBehaviour
                 // fill smoke origin in the voxel grid
                 _voxelizeCompute.Dispatch(2, 1, 1, 1);
 
-                _smokeConstantFill = true;
-                //_smokeIterateFill = true;
+                //_smokeConstantFill = true;
+                _smokeIterateFill = true;
             }
         }
             
@@ -191,7 +192,16 @@ public class VoxelGrid : MonoBehaviour
         if (_smokeIterateFill)
         {
             // animate smoke voxel grid
-            _radius = 5;
+            _voxelizeCompute.SetVector("_Radius", Vector3.Lerp(Vector3.zero, maxRadius, _radius));
+            _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+            _voxelizeCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
+            _voxelizeCompute.Dispatch(3, voxelsX, voxelsY, voxelsZ);
+            // gradually increase radius over time
+            _radius += growthSpeed * Time.deltaTime;
+            if (_radius >= maxRadius.x)
+            {
+                _smokeIterateFill = false;
+            }
         }
         
         // render smoke with voxels

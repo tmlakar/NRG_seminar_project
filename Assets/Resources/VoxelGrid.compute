@@ -130,7 +130,7 @@ void CS_FillSmoke (int3 id : SV_DispatchThreadID)
         inR = inR/_Radius;
         float distance = sqrt(inR.x*inR.x + inR.y*inR.y + inR.z*inR.z);
 
-        if (distance <= 1)
+        if (distance < 1)
         {
             _SmokeVoxels[voxelIndex] = 1;
         }

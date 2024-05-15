@@ -753,7 +753,7 @@ MonoBehaviour:
   drawVoxelGrid: 0
   drawSmoke: 1
   drawStaticScene: 0
-  growthSpeed: 1
+  growthSpeed: 3.18
 --- !u!1 &1066895838
 GameObject:
   m_ObjectHideFlags: 0
