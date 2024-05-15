@@ -13,8 +13,18 @@ RWStructuredBuffer<int> _StaticVoxels;
 float3 _VoxelResolution, _BoundsExtent, _Radius, _SmokeOrigin, _positionOffset;
 float _VoxelSize;
 int _MaxFillStep;
+uint _numberOfTriangles;
 float3 _VoxelPosition;
 
+
+float Round(float number)
+{
+    float fractionalPart = number - floor(number);
+    if (fractionalPart >= 0.5f) {
+        return ceil(number);
+    }
+    return floor(number);
+}
 
 float3 calculateVoxelCenterPosition(uint3 gridPosition)
 {
@@ -35,35 +45,27 @@ float3 calculateVoxelCenterPosition(uint3 gridPosition)
 
 float3 shiftSmokeOriginPosition(float3 originPosition)
 {
-    //originPosition = _SmokeOrigin % _BoundsExtent;
+    originPosition = _SmokeOrigin % _BoundsExtent;
     // map from ranges [-15, 15] to [0, 30]
     originPosition.x = originPosition.x + _BoundsExtent.x;
     originPosition.z = originPosition.z + _BoundsExtent.z;
     
     // map coordinates to grid resolution - [0, 30] to [0, 60]
     originPosition.x = originPosition.x / (_BoundsExtent.x * 2) * _VoxelResolution.x;
+    originPosition.y = originPosition.y / (_BoundsExtent.y * 2) * _VoxelResolution.y;
     originPosition.z = originPosition.z / (_BoundsExtent.z * 2) * _VoxelResolution.z;
+
+    originPosition.x = Round(originPosition.x);
+    originPosition.y = Round(originPosition.y);
+    originPosition.z = Round(originPosition.z);
     
     return originPosition;
 }
 
-float Round(float number)
-{
-    float fractionalPart = number - floor(number);
-    if (fractionalPart >= 0.5f) {
-        return ceil(number); // Round up
-    }
-    return floor(number); // Round down
-}
 
 uint to1D(float3 position) {
-
-    float positionX, positionY, positionZ;
-    positionX = Round(position.x);
-    positionY = Round(position.y);
-    positionZ = Round(position.z);
     
-    return positionX + positionY * _VoxelResolution.x + positionZ * _VoxelResolution.x * _VoxelResolution.y;
+    return position.x + position.y * _VoxelResolution.x + position.z * _VoxelResolution.x * _VoxelResolution.y;
 }
 
 uint3 to3D(uint index) {
@@ -72,13 +74,18 @@ uint3 to3D(uint index) {
     float z = index / (_VoxelResolution.x * _VoxelResolution.y);
 
     uint positionX, positionY, positionZ;
-    positionX = Round(x);
-    positionY = Round(y);
-    positionZ = Round(z);
+    positionX = x;
+    positionY = y;
+    positionZ = z;
     
     return uint3(positionX, positionY, positionZ);
 }
 
+bool intersectionFound()
+{
+    // TODO: implement triangle / voxel intersection with separating axes theorem
+    return false;
+}
 
 [numthreads(128,1,1)]
 void CS_Clear (uint id : SV_DispatchThreadID)
@@ -95,12 +102,12 @@ void CS_Static (uint id : SV_DispatchThreadID)
 }
 
 [numthreads(1,1,1)]
-void CS_SmokeOrigin (uint id : SV_DispatchThreadID)
+void CS_SmokeOrigin (uint3 id : SV_DispatchThreadID)
 {
     float3 originPosition = _SmokeOrigin;
     originPosition = shiftSmokeOriginPosition(originPosition);
     uint voxelIndex = to1D(originPosition);
-    _SmokeVoxels[voxelIndex] = 15;
+    _SmokeVoxels[voxelIndex] = 5;
     
 }
 
@@ -113,36 +120,71 @@ void CS_FillSmoke (int3 id : SV_DispatchThreadID)
        id.z >= 0 && id.z < _VoxelResolution.z)
     {
         uint voxelIndex = id.x + id.y * _VoxelResolution.x + id.z * _VoxelResolution.x * _VoxelResolution.y;
-        if (_SmokeVoxels[voxelIndex] > 1)
+        if (_SmokeVoxels[voxelIndex] == 5)
         {
+            // smoke origin
             _SmokeVoxels[voxelIndex] = 10;
             // skip further computation for the voxel
             return;
         }
-
         
         // covert voxel index to 3D position in the voxel grid
-        uint3 voxelGridPosition = to3D(voxelIndex);
+        uint voxelX = id.x;
+        uint voxelY = id.y;
+        uint voxelZ = id.z;
+        uint3 voxelGridPosition;
+        voxelGridPosition.x = voxelX;
+        voxelGridPosition.y = voxelY;
+        voxelGridPosition.z = voxelZ;
         
         // calculate the world position of the voxel
         float3 worldPositionVoxel = calculateVoxelCenterPosition(voxelGridPosition);
         float3 inR = worldPositionVoxel - _SmokeOrigin;
-        inR = inR/_Radius;
-        float distance = sqrt(inR.x*inR.x + inR.y*inR.y + inR.z*inR.z);
-
+        inR = inR / _Radius;
+        float distance = sqrt(inR.x * inR.x + inR.y * inR.y + inR.z * inR.z);
+        
         if (distance < 1)
         {
             _SmokeVoxels[voxelIndex] = 1;
         }
+        
         
     }
     
 }
 
 
-[numthreads(8,8,1)]
+[numthreads(1,1,1)]
 void CS_VoxelizeScene (uint3 id : SV_DispatchThreadID)
 {
-    
+    [branch]
+    if (id.x >= 0 && id.x < _VoxelResolution.x &&
+       id.y >= 0 && id.y < _VoxelResolution.y &&
+       id.z >= 0 && id.z < _VoxelResolution.z)
+    {
+        uint voxelIndex = id.x + id.y * _VoxelResolution.x + id.z * _VoxelResolution.x * _VoxelResolution.y;
+
+        // covert voxel index to 3D position in the voxel grid
+        uint voxelX = id.x;
+        uint voxelY = id.y;
+        uint voxelZ = id.z;
+        uint3 voxelGridPosition;
+        voxelGridPosition.x = voxelX;
+        voxelGridPosition.y = voxelY;
+        voxelGridPosition.z = voxelZ;
+        
+        // calculate the world position of the voxel
+        float3 worldPositionVoxel = calculateVoxelCenterPosition(voxelGridPosition);
+
+        // compare voxel to triangle to see if they overlap
+        for (uint i = 0; i < _numberOfTriangles; i++)
+        {
+            [branch]
+            if (intersectionFound())
+            {
+                _StaticVoxels[voxelIndex] = 1;
+            }
+        }
+    }
 }
 
