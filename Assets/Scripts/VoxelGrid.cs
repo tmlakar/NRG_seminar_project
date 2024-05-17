@@ -109,8 +109,8 @@ public class VoxelGrid : MonoBehaviour
        
        _voxelizeCompute.SetBuffer(0, "_Voxels", _staticVoxelsBuffer);
        _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
-       
-       
+
+       long allTriangles = 0;
        // voxelization of the static objects in the scene
        foreach (Transform child in sceneToVoxelize.GetComponentsInChildren<Transform>()) {
            MeshFilter meshFilter = child.gameObject.GetComponent<MeshFilter>();
@@ -160,12 +160,14 @@ public class VoxelGrid : MonoBehaviour
            }
 
            Debug.Log("Total number of static voxels:" + numberOfStaticVoxels);
+           allTriangles = allTriangles + sharedMesh.triangles.Length;
            
            _vertices.Release();
            _triangles.Release();
            
        }
        
+       Debug.Log("All triangles: "+ allTriangles/3);
        
        
        // args buffer for Graphics Rendering
@@ -372,10 +374,12 @@ public class VoxelGrid : MonoBehaviour
 
     private void OnDisable()
     {
+        _voxelsBuffer.Release();
         _staticVoxelsBuffer.Release();
         _smokeVoxelsBuffer.Release();
         _argsBuffer.Release();
-        _voxelsBuffer.Release();
+        _vertices.Release();
+        _triangles.Release();
         
     }
     
@@ -385,5 +389,7 @@ public class VoxelGrid : MonoBehaviour
         _smokeVoxelsBuffer.Dispose();
         _argsBuffer.Dispose();
         _voxelsBuffer.Dispose();
+        _vertices.Dispose();
+        _triangles.Dispose();
     }
 }
