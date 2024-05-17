@@ -35,6 +35,8 @@ public class VoxelGrid : MonoBehaviour
     public int MaxFillSteps = 0;
     
     public Mesh debugMesh;
+    
+    
     public bool drawVoxelGrid = false;
     public bool drawStaticScene = false;
     public bool drawSmoke = true;
@@ -60,9 +62,14 @@ public class VoxelGrid : MonoBehaviour
     private bool _smokeIterateFill = true;
     [Range(0.01f, 5.0f)]
     public float smokeGrowthSpeed = 1.0f;
-
+    
     private Vector3 maxRadius;
 
+    public GameObject sceneToVoxelize;
+    private ComputeBuffer _vertices, _triangles;
+    [Range(0.0f, 2.0f)]
+    public float intersectionBias = 1.0f;
+    
    private void OnEnable()
    {
        _radius = (float)0.0;
@@ -102,13 +109,63 @@ public class VoxelGrid : MonoBehaviour
        
        _voxelizeCompute.SetBuffer(0, "_Voxels", _staticVoxelsBuffer);
        _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
-      
-       _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
-       _voxelizeCompute.SetVector("_BoundsExtent", boundsExtent);
-       _voxelizeCompute.SetFloat("_VoxelSize", voxelSize);
        
        
-       // TODO voxelization of the static objects in the scene
+       // voxelization of the static objects in the scene
+       foreach (Transform child in sceneToVoxelize.GetComponentsInChildren<Transform>()) {
+           MeshFilter meshFilter = child.gameObject.GetComponent<MeshFilter>();
+
+           if (!meshFilter)
+           {
+               Debug.Log("No mesh filter!");
+               continue;
+           }
+           Mesh sharedMesh = meshFilter.sharedMesh;
+
+           // positions (x, y, z) of all vertices in the mesh
+           _vertices = new ComputeBuffer(sharedMesh.vertexCount, 3 * sizeof(float));
+           _vertices.SetData(sharedMesh.vertices);
+           // indices defining how the vertices connect to form triangles
+           _triangles = new ComputeBuffer(sharedMesh.triangles.Length, sizeof(int));
+           _triangles.SetData(sharedMesh.triangles);
+           
+           
+           Debug.Log("Name of mesh: " + child.name);
+           Debug.Log("Number of vertices: " + sharedMesh.vertexCount);
+           Debug.Log("Number of triangles: " + sharedMesh.triangles.Length / 3);
+           
+           _voxelizeCompute.SetBuffer(4, "_MeshVertices", _vertices);
+           _voxelizeCompute.SetBuffer(4, "_MeshTriangleIndices", _triangles);
+           _voxelizeCompute.SetBuffer(4, "_StaticVoxels", _staticVoxelsBuffer);
+           _voxelizeCompute.SetMatrix("_MeshLocalToWorld", child.localToWorldMatrix);
+           _voxelizeCompute.SetInt("_numberOfTriangles", sharedMesh.triangles.Length);
+           _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+           _voxelizeCompute.SetVector("_BoundsExtent", boundsExtent);
+           _voxelizeCompute.SetFloat("_VoxelSize", voxelSize);
+           _voxelizeCompute.SetFloat("_IntersectionBias", intersectionBias);
+           _voxelizeCompute.Dispatch(4, voxelsX, voxelsY, voxelsZ);
+           
+           int numberOfStaticVoxels = 0;
+           // debugging
+           int[] bufferData = new int[numberOfVoxels]; // Assuming int buffer
+           _staticVoxelsBuffer.GetData(bufferData);
+
+           for (int i = 0; i < bufferData.Length; i++)
+           {
+               if (bufferData[i] > 0)
+               {
+                   numberOfStaticVoxels = numberOfStaticVoxels + 1;
+                   Debug.Log("Buffer[" + i + "]: " + bufferData[i]);
+               }
+           }
+
+           Debug.Log("Total number of static voxels:" + numberOfStaticVoxels);
+           
+           _vertices.Release();
+           _triangles.Release();
+           
+       }
+       
        
        
        // args buffer for Graphics Rendering
@@ -161,6 +218,22 @@ public class VoxelGrid : MonoBehaviour
         if (drawStaticScene)
         {
             _debugStaticVoxels = true;
+            _debugAllVoxels = false;
+            _debugSmokeVoxels = false;
+            _voxelGridVisualization.SetBuffer("_Voxels", _voxelsBuffer);
+            _voxelGridVisualization.SetBuffer("_StaticVoxels", _staticVoxelsBuffer);
+            _voxelGridVisualization.SetBuffer("_SmokeVoxels", _smokeVoxelsBuffer);
+            _voxelGridVisualization.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+            _voxelGridVisualization.SetVector("_BoundsExtent", boundsExtent);
+            _voxelGridVisualization.SetFloat("_VoxelSize", voxelSize);
+            _voxelGridVisualization.SetInt("_MaxFillSteps", MaxFillSteps);
+            _voxelGridVisualization.SetInt("_DebugAllVoxels", _debugAllVoxels ? 1 : 0);
+            _voxelGridVisualization.SetInt("_DebugSmokeVoxels", _debugSmokeVoxels ? 1 : 0);
+            _voxelGridVisualization.SetInt("_DebugStaticVoxels", _debugStaticVoxels ? 1 : 0);
+            
+            Graphics.DrawMeshInstancedIndirect(debugMesh, 0, _voxelGridVisualization, debugBounds, _argsBuffer);
+            
+
         }
         
         // smoke
@@ -231,6 +304,7 @@ public class VoxelGrid : MonoBehaviour
         // render smoke with voxels
         if (drawSmoke)
         {
+            
             _debugSmokeVoxels = true;
             _debugAllVoxels = false;
             _voxelGridVisualization.SetBuffer("_Voxels", _voxelsBuffer);
