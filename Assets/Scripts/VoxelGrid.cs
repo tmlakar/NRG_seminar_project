@@ -22,7 +22,9 @@ public class VoxelGrid : MonoBehaviour
     private ComputeBuffer _voxelsBuffer;
     private ComputeBuffer _staticVoxelsBuffer;
     private ComputeBuffer _smokeVoxelsBuffer;
+    private ComputeBuffer _floodFillSmokeBuffer;
     private ComputeBuffer _argsBuffer;
+    
     
     private Material _voxelGridVisualization;
     private ComputeShader _voxelizeCompute;
@@ -32,12 +34,12 @@ public class VoxelGrid : MonoBehaviour
     
     private Bounds debugBounds;
     
-    public int MaxFillSteps = 0;
+    public int MaxFillSteps;
     
     public Mesh debugMesh;
     
     
-    public bool drawVoxelGrid = false;
+    private bool drawVoxelGrid = false;
     public bool drawStaticScene = false;
     public bool drawSmoke = true;
     private bool _debugAllVoxels = false;
@@ -59,7 +61,7 @@ public class VoxelGrid : MonoBehaviour
     private Vector3 _smokeOrigin;
     private float _radius;
     private bool _smokeConstantFill = false;
-    private bool _smokeIterateFill = true;
+    private bool _smokeIterateFill = false;
     [Range(0.01f, 5.0f)]
     public float smokeGrowthSpeed = 1.0f;
     
@@ -97,16 +99,23 @@ public class VoxelGrid : MonoBehaviour
        // compute buffer for representation of smoke
        _smokeVoxelsBuffer = new ComputeBuffer(numberOfVoxels, sizeof(int));
        
+       _floodFillSmokeBuffer = new ComputeBuffer(numberOfVoxels, sizeof(int));
+       
+      
        
        // compute shader for voxelization of the scene
        _voxelizeCompute = (ComputeShader)Resources.Load("VoxelGrid");
        
+
        _voxelizeCompute.SetBuffer(1, "_Voxels", _voxelsBuffer);
        _voxelizeCompute.Dispatch(1, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
        
        _voxelizeCompute.SetBuffer(0, "_Voxels", _smokeVoxelsBuffer);
        _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
        
+       _voxelizeCompute.SetBuffer(0, "_Voxels", _floodFillSmokeBuffer);
+       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+
        _voxelizeCompute.SetBuffer(0, "_Voxels", _staticVoxelsBuffer);
        _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
 
@@ -145,21 +154,6 @@ public class VoxelGrid : MonoBehaviour
            _voxelizeCompute.SetFloat("_IntersectionBias", intersectionBias);
            _voxelizeCompute.Dispatch(4, voxelsX, voxelsY, voxelsZ);
            
-           int numberOfStaticVoxels = 0;
-           // debugging
-           int[] bufferData = new int[numberOfVoxels]; // Assuming int buffer
-           _staticVoxelsBuffer.GetData(bufferData);
-
-           for (int i = 0; i < bufferData.Length; i++)
-           {
-               if (bufferData[i] > 0)
-               {
-                   numberOfStaticVoxels = numberOfStaticVoxels + 1;
-                   Debug.Log("Buffer[" + i + "]: " + bufferData[i]);
-               }
-           }
-
-           Debug.Log("Total number of static voxels:" + numberOfStaticVoxels);
            allTriangles = allTriangles + sharedMesh.triangles.Length;
            
            _vertices.Release();
@@ -252,6 +246,7 @@ public class VoxelGrid : MonoBehaviour
                 Debug.Log("Smoke origin: " + _smokeOrigin);
                 _voxelizeCompute.SetVector("_SmokeOrigin", _smokeOrigin);
                 _voxelizeCompute.SetBuffer(2, "_SmokeVoxels", _smokeVoxelsBuffer);
+                _voxelizeCompute.SetInt("_MaxFillStep", MaxFillSteps);
                 // fill smoke origin in the voxel grid
                 _voxelizeCompute.Dispatch(2, voxelsX, voxelsY, voxelsZ);
 
@@ -260,7 +255,7 @@ public class VoxelGrid : MonoBehaviour
             }
         }
             
-        if (_smokeConstantFill)
+        /*if (_smokeConstantFill)
         {
             // fill the smoke voxel grid at once
             _radius = 5;
@@ -268,9 +263,10 @@ public class VoxelGrid : MonoBehaviour
             _voxelizeCompute.SetVector("_Radius", new Vector3(_radius, _radius-2, _radius));
             _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
             _voxelizeCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
+            _voxelizeCompute.SetBuffer(3, "_FloodFillVoxels", _floodFillSmokeBuffer);
             _voxelizeCompute.Dispatch(3, voxelsX, voxelsY, voxelsZ);
             
-        }
+        }*/
 
         if (_smokeIterateFill)
         {
@@ -278,18 +274,23 @@ public class VoxelGrid : MonoBehaviour
             _voxelizeCompute.SetVector("_Radius", Vector3.Lerp(Vector3.zero, maxRadius, EasingFunction(_radius)));
             _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
             _voxelizeCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
+            _voxelizeCompute.SetBuffer(3, "_StaticVoxels", _staticVoxelsBuffer);
+            _voxelizeCompute.SetBuffer(3, "_FloodFillVoxels", _floodFillSmokeBuffer);
             _voxelizeCompute.Dispatch(3, voxelsX, voxelsY, voxelsZ);
+            
+            _voxelizeCompute.SetBuffer(5, "_SmokeVoxels", _smokeVoxelsBuffer);
+            _voxelizeCompute.SetBuffer(5, "_FloodFillVoxels", _floodFillSmokeBuffer);
+            _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+            _voxelizeCompute.Dispatch(5, voxelsX, voxelsY, voxelsZ);
             // gradually increase radius over time
             _radius += smokeGrowthSpeed * Time.deltaTime;
-            if (_radius >= maxRadius.x)
-            {
-                _smokeIterateFill = false;
-            }
+            
+            
             
             int numberOfSmokeVoxels = 0;
             // debugging
             int[] bufferData = new int[numberOfVoxels]; // Assuming int buffer
-             _smokeVoxelsBuffer.GetData(bufferData);
+             _floodFillSmokeBuffer.GetData(bufferData);
 
             for (int i = 0; i < bufferData.Length; i++)
             {

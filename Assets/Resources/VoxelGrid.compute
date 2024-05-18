@@ -4,11 +4,14 @@
 #pragma kernel CS_SmokeOrigin
 #pragma kernel CS_FillSmoke
 #pragma kernel CS_VoxelizeScene
+#pragma kernel CS_FloodFillToVoxels
 
 RWTexture2D<float4> Result;
 RWStructuredBuffer<int> _Voxels;
 RWStructuredBuffer<int> _SmokeVoxels;
 RWStructuredBuffer<int> _StaticVoxels;
+RWStructuredBuffer<int> _FloodFillVoxels;
+
 
 RWStructuredBuffer<float3> _MeshVertices;
 RWStructuredBuffer<int> _MeshTriangleIndices;
@@ -98,7 +101,6 @@ uint3 to3D(uint index) {
 
 bool IntersectsTriangleAABBSAT(float3 v0, float3 v1, float3 v2, float3 aabbExtents, float3 axis)
 {
-    // project triangle vertices onto the axis
     float p0 = dot(v0, axis);
     float p1 = dot(v1, axis);
     float p2 = dot(v2, axis);
@@ -115,28 +117,28 @@ bool IntersectsTriangleAABBSAT(float3 v0, float3 v1, float3 v2, float3 aabbExten
 
 bool intersectionFound(Triangle tri, AABB aabb)
 {
-    // triangle / voxel intersection with separating axes theorem
+    // triangle / voxel intersection with separating axes theorem - code based on and copied from https://bronsonzgeb.com/index.php/2021/05/29/gpu-mesh-voxelizer-part-2/
 
     tri.a = tri.a - aabb.center;
     tri.b = tri.b - aabb.center;
     tri.c = tri.c - aabb.center;
 
-    // triangle edge normals
+   
     float3 ab = normalize(tri.b - tri.a);
     float3 bc = normalize(tri.c - tri.b);
     float3 ca = normalize(tri.c - tri.a);
 
-    //Cross ab, bc, and ca with (1, 0, 0)
+    
     float3 a00 = float3(0.0, -ab.z, ab.y);
     float3 a01 = float3(0.0, -bc.z, bc.y);
     float3 a02 = float3(0.0, -ca.z, ca.y);
 
-    //Cross ab, bc, and ca with (0, 1, 0)
+    
     float3 a10 = float3(ab.z, 0.0, -ab.x);
     float3 a11 = float3(bc.z, 0.0, -bc.x);
     float3 a12 = float3(ca.z, 0.0, -ca.x);
 
-    //Cross ab, bc, and ca with (0, 0, 1)
+    
     float3 a20 = float3(-ab.y, ab.x, 0.0);
     float3 a21 = float3(-bc.y, bc.x, 0.0);
     float3 a22 = float3(-ca.y, ca.x, 0.0);
@@ -181,7 +183,20 @@ void CS_SmokeOrigin (uint3 id : SV_DispatchThreadID)
     float3 originPosition = _SmokeOrigin;
     originPosition = shiftSmokeOriginPosition(originPosition);
     uint voxelIndex = to1D(originPosition);
-    _SmokeVoxels[voxelIndex] = 5;
+    _SmokeVoxels[voxelIndex] = _MaxFillStep;
+}
+
+void GetNeighboringVoxels(int3 voxel, int3 voxelResolution, out int3 neighbors[6]) {
+    int voxelX = voxel.x;
+    int voxelY = voxel.y;
+    int voxelZ = voxel.z;
+    
+    neighbors[0] = int3(voxelX + 1, voxelY, voxelZ);
+    neighbors[1] = int3(voxelX - 1, voxelY, voxelZ); 
+    neighbors[2] = int3(voxelX, voxelY + 1, voxelZ); 
+    neighbors[3] = int3(voxelX, voxelY - 1, voxelZ); 
+    neighbors[4] = int3(voxelX, voxelY, voxelZ + 1); 
+    neighbors[5] = int3(voxelX, voxelY, voxelZ - 1);
     
 }
 
@@ -193,37 +208,91 @@ void CS_FillSmoke (int3 id : SV_DispatchThreadID)
        id.y >= 0 && id.y < _VoxelResolution.y &&
        id.z >= 0 && id.z < _VoxelResolution.z)
     {
-        uint voxelIndex = id.x + id.y * _VoxelResolution.x + id.z * _VoxelResolution.x * _VoxelResolution.y;
-        if (_SmokeVoxels[voxelIndex] == 5)
-        {
-            // smoke origin
-            _SmokeVoxels[voxelIndex] = 10;
-            // skip further computation for the voxel
-            return;
-        }
-        
-        // covert voxel index to 3D position in the voxel grid
-        uint voxelX = id.x;
-        uint voxelY = id.y;
-        uint voxelZ = id.z;
+        int3 voxel = int3(id.x, id.y, id.z);
+        // define neighbours in the grid for flood fill
+        int3 neighbors[6];
+        GetNeighboringVoxels(voxel, _VoxelResolution, neighbors);
+
+        // convert voxel index to 3D position in the voxel grid
         uint3 voxelGridPosition;
-        voxelGridPosition.x = voxelX;
-        voxelGridPosition.y = voxelY;
-        voxelGridPosition.z = voxelZ;
+        voxelGridPosition.x = id.x;
+        voxelGridPosition.y = id.y;
+        voxelGridPosition.z = id.z;
         
+        uint voxelIndex = voxelGridPosition.x + voxelGridPosition.y * _VoxelResolution.x + voxelGridPosition.z * _VoxelResolution.x * _VoxelResolution.y;
+        int smokeVoxelValue = _SmokeVoxels[voxelIndex];
+        int staticVoxelValue = _StaticVoxels[voxelIndex];
+
+        bool isStatic = false;
+        if (staticVoxelValue > 0)
+        {
+            isStatic = true;
+        }
+
+        if (smokeVoxelValue > 0)
+        {
+            _FloodFillVoxels[voxelIndex] = smokeVoxelValue;
+        }
+
         // calculate the world position of the voxel
         float3 worldPositionVoxel = calculateVoxelCenterPosition(voxelGridPosition);
         float3 inR = worldPositionVoxel - _SmokeOrigin;
         inR = inR / _Radius;
         float distance = sqrt(inR.x * inR.x + inR.y * inR.y + inR.z * inR.z);
+
         
-        if (distance < 1)
+        // radius check
+        if (distance >= 1)
         {
-            _SmokeVoxels[voxelIndex] = 1;
+            _FloodFillVoxels[voxelIndex] = 0;
+            return;
+            
+        }
+        // uncomment this next section for smoke propagation with no flood fill algorithm
+         else
+        {
+            if (isStatic)
+            {
+                _FloodFillVoxels[voxelIndex] = 0;
+                return;
+            } else
+            {
+                _FloodFillVoxels[voxelIndex] = 1;
+                return;
+            }
+            
+        } 
+        
+        
+        // if its inside radius, flood fill the voxels -
+        // if you dont want smoke to interact with static objects, comment the next section and uncomment the section above
+
+        // check maximum smoke fill value of neighboring voxels
+        int maximumSmokeFillValue = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            int3 neighbor = neighbors[i];
+            if (any(neighbor < 0) || any(_VoxelResolution < neighbor)) continue;
+            // check if neighbor is valid
+            int neighborVoxelIndex = neighbor.x + neighbor.y * _VoxelResolution.x + neighbor.z * _VoxelResolution.x * _VoxelResolution.y;
+            int valueOfNeighbor = _SmokeVoxels[neighborVoxelIndex];
+             
+            if (valueOfNeighbor > maximumSmokeFillValue)
+            {
+                maximumSmokeFillValue = valueOfNeighbor;
+            }
         }
         
+      
+        if (isStatic && maximumSmokeFillValue > 1)
+        {
+            maximumSmokeFillValue = 2;
+        }
+
+        _FloodFillVoxels[voxelIndex] = max(0, maximumSmokeFillValue-1);
         
     }
+    
     
 }
 
@@ -278,3 +347,14 @@ void CS_VoxelizeScene (int3 id : SV_DispatchThreadID)
     }
 }
 
+[numthreads(1, 1, 1)]
+void CS_FloodFillToVoxels(int3 id : SV_DISPATCHTHREADID) {
+    [branch]
+    if (id.x >= 0 && id.x < _VoxelResolution.x &&
+       id.y >= 0 && id.y < _VoxelResolution.y &&
+       id.z >= 0 && id.z < _VoxelResolution.z)
+    {
+        uint voxelIndex = id.x + id.y * _VoxelResolution.x + id.z * _VoxelResolution.x * _VoxelResolution.y;
+        _SmokeVoxels[voxelIndex] = _FloodFillVoxels[voxelIndex];
+    }
+}

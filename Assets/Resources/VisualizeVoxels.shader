@@ -52,8 +52,8 @@ Shader "Custom/VisualizeVoxels1" {
 				i.pos = UnityObjectToClipPos((v.vertex + float3(x, y, z)) * _VoxelSize + (_VoxelSize * 0.5f) - _BoundsExtent);
 
 				if (_DebugSmokeVoxels)
-					//i.pos *= saturate(_SmokeVoxels[instanceID]);
-            		i.pos *= _SmokeVoxels[instanceID];
+					i.pos *= saturate(_SmokeVoxels[instanceID]);
+            		//i.pos *= _SmokeVoxels[instanceID];
 				if (_DebugStaticVoxels)
 					i.pos *= _StaticVoxels[instanceID];
             	if (_DebugAllVoxels)
