@@ -232,6 +232,7 @@ void CS_FillSmoke (int3 id : SV_DispatchThreadID)
         if (smokeVoxelValue > 0)
         {
             _FloodFillVoxels[voxelIndex] = smokeVoxelValue;
+            return;
         }
 
         // calculate the world position of the voxel
@@ -242,30 +243,14 @@ void CS_FillSmoke (int3 id : SV_DispatchThreadID)
 
         
         // radius check
-        if (distance >= 1)
+        if (distance >= 1.0f)
         {
             _FloodFillVoxels[voxelIndex] = 0;
             return;
             
         }
-        // uncomment this next section for smoke propagation with no flood fill algorithm
-         else
-        {
-            if (isStatic)
-            {
-                _FloodFillVoxels[voxelIndex] = 0;
-                return;
-            } else
-            {
-                _FloodFillVoxels[voxelIndex] = 1;
-                return;
-            }
-            
-        } 
-        
         
         // if its inside radius, flood fill the voxels -
-        // if you dont want smoke to interact with static objects, comment the next section and uncomment the section above
 
         // check maximum smoke fill value of neighboring voxels
         int maximumSmokeFillValue = 0;

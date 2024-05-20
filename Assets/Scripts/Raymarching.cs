@@ -63,7 +63,7 @@ public class Raymarching : MonoBehaviour
     [Range(0.0f, 10.0f)] 
     public float shadowDensity = 1.0f;
 
-
+    private RenderTexture smokeTex, smokeMaskTex;
     private RenderTexture noiseTex, depthTex, smokeAlbedoFullTex, smokeMaskFullTex;
     
     
@@ -78,7 +78,7 @@ public class Raymarching : MonoBehaviour
         _light = GameObject.Find("Area Light");
         
         
-        // initialize noise variables
+        // TODO initialize noise variables
         if (noiseTex != null)
         {
             // update noise 
@@ -114,7 +114,7 @@ public class Raymarching : MonoBehaviour
     void Update()
     {
         
-        // update noise 
+        // TODO update noise 
         
         // get smoke voxels to use data in ray marching
         if (smokeVoxels != null)
@@ -124,18 +124,24 @@ public class Raymarching : MonoBehaviour
             _voxelResolution = smokeVoxels.GetVoxelResolution();
         }
         
-        
-
-        
     }
-
-    private void OnRenderImage(RenderTexture source, RenderTexture destination)
+    
+    void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
+        smokeTex = smokeAlbedoFullTex;
+        smokeMaskTex = smokeMaskFullTex;
         
         
-        Graphics.Blit(source, destination, _smokeMaterial, 0);
         
+        // applying post-processing effects to the rendered image
+        // Graphics.Blit(source, destination);
         
+        // TODO set all compute shader values
+        // TODO distpach ray marching compute shader kernel
+        // TODO set shader values to build final image
+        Graphics.Blit(source, destination);
+
+
     }
 }
 

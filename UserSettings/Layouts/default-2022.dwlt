@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 772.8
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Scene
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -338,7 +338,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 60}
     m_SelectedIDs: 565d0000
     m_LastClickedID: 23894
-    m_ExpandedIDs: 00000000405d000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000405d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -506,9 +506,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 325a0000
-      m_LastClickedID: 23090
-      m_ExpandedIDs: 24fbffff
+      m_SelectedIDs: d6590000
+      m_LastClickedID: 22998
+      m_ExpandedIDs: 30fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -875,9 +875,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 2.878335, y: -6.6350613, z: 11.925938}
+    m_Target: {x: -4.8996053, y: -3.1589315, z: 9.441288}
     speed: 2
-    m_Value: {x: 2.878335, y: -6.6350613, z: 11.925938}
+    m_Value: {x: -4.8996053, y: -3.1589315, z: 9.441288}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -923,13 +923,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.24351542, y: 0.011052639, z: -0.0027980455, w: 0.9698478}
+    m_Target: {x: -0.19421373, y: 0.21520253, z: -0.043684825, w: -0.9560853}
     speed: 2
-    m_Value: {x: 0.24351123, y: 0.011052449, z: -0.0027979976, w: 0.96983117}
+    m_Value: {x: -0.17917125, y: 0.3528711, z: -0.06900854, w: -0.9157606}
   m_Size:
-    m_Target: 18.778683
+    m_Target: 13.126773
     speed: 2
-    m_Value: 18.778683
+    m_Value: 12.042911
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1068,7 +1068,7 @@ MonoBehaviour:
       y: 21
       width: 876.4
       height: 430
-    m_Scale: {x: 0.4976852, y: 0.4976852}
+    m_Scale: {x: 0.49768516, y: 0.4976852}
     m_Translation: {x: 438.2, y: 215}
     m_MarginLeft: 0
     m_MarginRight: 0

@@ -1154,12 +1154,12 @@ MonoBehaviour:
   voxelSize: 0.5
   drawStaticScene: 0
   drawSmoke: 1
-  MaxFillSteps: 15
+  MaxFillSteps: 50
   debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _selectedSmokeShape: 0
   smokeGrowthSpeed: 3.45
   sceneToVoxelize: {fileID: 1907856715}
-  intersectionBias: 0.43
+  intersectionBias: 0.56
 --- !u!1 &1082116808
 GameObject:
   m_ObjectHideFlags: 0
