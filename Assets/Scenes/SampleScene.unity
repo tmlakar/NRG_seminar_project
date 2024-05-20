@@ -1152,10 +1152,10 @@ MonoBehaviour:
   drawBoxGizmo: 1
   boundsExtent: {x: 15, y: 3, z: 15}
   voxelSize: 0.5
-  MaxFillSteps: 15
-  debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   drawStaticScene: 0
   drawSmoke: 1
+  MaxFillSteps: 15
+  debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _selectedSmokeShape: 0
   smokeGrowthSpeed: 3.45
   sceneToVoxelize: {fileID: 1907856715}
@@ -2588,6 +2588,7 @@ GameObject:
   - component: {fileID: 1979185907}
   - component: {fileID: 1979185906}
   - component: {fileID: 1979185905}
+  - component: {fileID: 1979185908}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -2669,6 +2670,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 13.53, y: 0, z: 0}
+--- !u!114 &1979185908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979185904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8385500f81aea534aafb0621824301e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokeVoxels: {fileID: 960745117}
+  lightColor: {r: 0.85660374, g: 0.81900406, b: 0.4121395, a: 0}
+  seed: 0
+  smokeColor: {r: 0.2528302, g: 0.2528302, b: 0.2528302, a: 0}
+  stepCount: 32
+  stepSize: 0.05
+  lightStepCount: 8
+  lightStepSize: 0.05
+  smokeSize: 32
+  volumeDensity: 1
+  absorptionCoefficient: 0.5
+  scatteringCoefficient: 0.5
+  extinctionColor: {r: 1, g: 1, b: 1, a: 1}
+  shadowDensity: 1
 --- !u!4 &2037165133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 57ed529cf160aa74b816b9c53ffde622, type: 3}

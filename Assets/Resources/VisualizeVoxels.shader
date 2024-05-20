@@ -18,7 +18,7 @@ Shader "Custom/VisualizeVoxels1" {
             float3 _BoundsExtent;
             uint3 _VoxelResolution;
             float _VoxelSize;
-            int _MaxFillSteps, _DebugSmokeVoxels, _DebugAllVoxels, _DebugStaticVoxels, _DebugEdgeVoxels;
+            int _MaxFillSteps, _DebugSmokeVoxels, _DebugAllVoxels, _DebugStaticVoxels;
 
 			struct VertexData {
 				float4 vertex : POSITION;
@@ -52,8 +52,7 @@ Shader "Custom/VisualizeVoxels1" {
 				i.pos = UnityObjectToClipPos((v.vertex + float3(x, y, z)) * _VoxelSize + (_VoxelSize * 0.5f) - _BoundsExtent);
 
 				if (_DebugSmokeVoxels)
-					i.pos *= saturate(_SmokeVoxels[instanceID]);
-            		//i.pos *= _SmokeVoxels[instanceID];
+            		i.pos *= _SmokeVoxels[instanceID];
 				if (_DebugStaticVoxels)
 					i.pos *= _StaticVoxels[instanceID];
             	if (_DebugAllVoxels)

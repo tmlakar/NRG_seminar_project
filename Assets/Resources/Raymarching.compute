@@ -1,0 +1,45 @@
+#pragma kernel CS_RayMarching
+#pragma kernel CS_GenerateNoise
+
+RWTexture2D<float4> Result;
+RWStructuredBuffer<int> _SmokeVoxels;
+float3 _BoundsExtent, _VoxelResolution;
+
+// textures for generating and storing noise data
+RWTexture3D<half> _RWNoiseTex;
+Texture3D<half> _NoiseTex;
+
+//smoke textures
+// smoke color data
+RWTexture2D<float4> _SmokeTex;
+// smoke depth data
+RWTexture2D<float> _SmokeDepthTex;
+// binary smoke mask
+RWTexture2D<half> _SmokeMaskTex;
+
+Texture2D<half> _DepthTex;
+
+
+
+// camera transformations
+float4x4 _CameraToWorld;
+float4x4 _CameraInverseProjection;
+float4x4 _CameraInverseViewProjection;
+// camera and light properties
+float3 _CameraWorldPosition;
+float3 _LightColor;
+float3 _LightDirection;
+
+
+
+[numthreads(8,8,1)]
+void CS_RayMarching (uint3 id : SV_DispatchThreadID)
+{
+   
+}
+
+[numthreads(8,8,1)]
+void CS_GenerateNoise (uint3 id : SV_DispatchThreadID)
+{
+    
+}

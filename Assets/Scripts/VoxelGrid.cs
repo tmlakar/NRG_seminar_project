@@ -11,14 +11,16 @@ using Random = System.Random;
 
 public class VoxelGrid : MonoBehaviour
 {
-    
     public bool drawVoxelGridGizmo = true;
     public bool drawBoxGizmo = true;
     
     
+    [Header("Grid voxelization")]
+    [Space(5)]
     public Vector3 boundsExtent = new Vector3(50, 5, 50);
     public float voxelSize = 0.5f;
-
+    private int voxelsX, voxelsY, voxelsZ, numberOfVoxels;
+    
     private ComputeBuffer _voxelsBuffer;
     private ComputeBuffer _staticVoxelsBuffer;
     private ComputeBuffer _smokeVoxelsBuffer;
@@ -28,25 +30,27 @@ public class VoxelGrid : MonoBehaviour
     
     private Material _voxelGridVisualization;
     private ComputeShader _voxelizeCompute;
-    
-    private int voxelsX, voxelsY, voxelsZ, numberOfVoxels;
-    
-    
-    private Bounds debugBounds;
-    
-    public int MaxFillSteps;
-    
-    public Mesh debugMesh;
-    
-    
-    private bool drawVoxelGrid = false;
     public bool drawStaticScene = false;
     public bool drawSmoke = true;
+    private bool drawVoxelGrid = false;
     private bool _debugAllVoxels = false;
     private bool _debugStaticVoxels = false;
     private bool _debugSmokeVoxels = false;
     
     
+    
+    private Bounds debugBounds;
+    
+    [Header("Smoke voxels rendering")]
+    [Space(5)]
+    public int MaxFillSteps;
+    
+    public Mesh debugMesh;
+    
+    
+    
+    
+
     public enum SmokeShape {
         Cloud,
         Plume
@@ -66,12 +70,45 @@ public class VoxelGrid : MonoBehaviour
     public float smokeGrowthSpeed = 1.0f;
     
     private Vector3 maxRadius;
-
+    
+    [Header("Static scene voxelization")]
+    [Space(5)]
     public GameObject sceneToVoxelize;
     private ComputeBuffer _vertices, _triangles;
     [Range(0.0f, 2.0f)]
     public float intersectionBias = 1.0f;
     
+    
+    public ComputeBuffer GetSmokeVoxelBuffer()
+    {
+        return _smokeVoxelsBuffer;
+    }
+
+    public Vector3 GetVoxelResolution()
+    {
+        return new Vector3(voxelsX, voxelsY, voxelsZ);
+    }
+
+    public Vector3 GetBoundsExtent()
+    {
+        return boundsExtent;
+    }
+    public float GetVoxelSize() {
+        return voxelSize;
+    }
+
+    public Vector3 GetSmokeOrigin() {
+        return _smokeOrigin;
+    }
+
+    public Vector3 GetSmokeRadius() {
+        return Vector3.Lerp(Vector3.zero, maxRadius, EasingFunction(_radius));
+    }
+
+    public float GetEasing() {
+        return EasingFunction(_radius);
+    }
+
    private void OnEnable()
    {
        _radius = (float)0.0;
