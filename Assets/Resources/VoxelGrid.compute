@@ -5,6 +5,8 @@
 #pragma kernel CS_FillSmoke
 #pragma kernel CS_VoxelizeScene
 #pragma kernel CS_FloodFillToVoxels
+#pragma kernel CS_Disperse
+
 
 RWTexture2D<float4> Result;
 RWStructuredBuffer<int> _Voxels;
@@ -341,5 +343,25 @@ void CS_FloodFillToVoxels(int3 id : SV_DISPATCHTHREADID) {
     {
         uint voxelIndex = id.x + id.y * _VoxelResolution.x + id.z * _VoxelResolution.x * _VoxelResolution.y;
         _SmokeVoxels[voxelIndex] = _FloodFillVoxels[voxelIndex];
+    }
+}
+
+
+[numthreads(1, 1, 1)]
+void CS_Disperse(int3 id : SV_DISPATCHTHREADID) {
+    [branch]
+    if (id.x >= 0 && id.x < _VoxelResolution.x &&
+       id.y >= 0 && id.y < _VoxelResolution.y &&
+       id.z >= 0 && id.z < _VoxelResolution.z)
+    {
+        
+        uint3 voxelGridPosition;
+        voxelGridPosition.x = id.x;
+        voxelGridPosition.y = id.y;
+        voxelGridPosition.z = id.z;
+        
+        uint voxelIndex = voxelGridPosition.x + voxelGridPosition.y * _VoxelResolution.x + voxelGridPosition.z * _VoxelResolution.x * _VoxelResolution.y;
+        _SmokeVoxels[voxelIndex] = _SmokeVoxels[voxelIndex] - 1;
+        
     }
 }

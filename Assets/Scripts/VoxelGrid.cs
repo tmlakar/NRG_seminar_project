@@ -272,6 +272,11 @@ public class VoxelGrid : MonoBehaviour
         // smoke
         if (Input.GetMouseButton(0))
         {
+            _voxelizeCompute.SetBuffer(0, "_Voxels", _smokeVoxelsBuffer);
+            _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+       
+            _voxelizeCompute.SetBuffer(0, "_Voxels", _floodFillSmokeBuffer);
+            _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 300))
@@ -307,20 +312,42 @@ public class VoxelGrid : MonoBehaviour
 
         if (_smokeIterateFill)
         {
-            // animate smoke voxel grid
-            _voxelizeCompute.SetVector("_Radius", Vector3.Lerp(Vector3.zero, maxRadius, EasingFunction(_radius)));
-            _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
-            _voxelizeCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
-            _voxelizeCompute.SetBuffer(3, "_StaticVoxels", _staticVoxelsBuffer);
-            _voxelizeCompute.SetBuffer(3, "_FloodFillVoxels", _floodFillSmokeBuffer);
-            _voxelizeCompute.Dispatch(3, voxelsX, voxelsY, voxelsZ);
+            float dispatch = 10.0f;
+            float dispatchStep = 3.0f;
+            float currentDispatch = dispatch + dispatchStep;
+            if (Time.time > dispatch)
+            {
+                if (Time.time == currentDispatch)
+                {
+                    // dispatch the kernel to reduce density of smoke voxels after some time
+                    _voxelizeCompute.SetBuffer(5, "_SmokeVoxels", _smokeVoxelsBuffer);
+                    _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+                    _voxelizeCompute.Dispatch(5, voxelsX, voxelsY, voxelsZ);
+                    currentDispatch = currentDispatch + dispatchStep;
+                    return;
+                }
+                
+                return;
+                
+            }
+            else
+            {
+                // animate smoke voxel grid
+                _voxelizeCompute.SetVector("_Radius", Vector3.Lerp(Vector3.zero, maxRadius, EasingFunction(_radius)));
+                _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+                _voxelizeCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
+                _voxelizeCompute.SetBuffer(3, "_StaticVoxels", _staticVoxelsBuffer);
+                _voxelizeCompute.SetBuffer(3, "_FloodFillVoxels", _floodFillSmokeBuffer);
+                _voxelizeCompute.Dispatch(3, voxelsX, voxelsY, voxelsZ);
             
-            _voxelizeCompute.SetBuffer(5, "_SmokeVoxels", _smokeVoxelsBuffer);
-            _voxelizeCompute.SetBuffer(5, "_FloodFillVoxels", _floodFillSmokeBuffer);
-            _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
-            _voxelizeCompute.Dispatch(5, voxelsX, voxelsY, voxelsZ);
-            // gradually increase radius over time
-            _radius += smokeGrowthSpeed * Time.deltaTime;
+                _voxelizeCompute.SetBuffer(5, "_SmokeVoxels", _smokeVoxelsBuffer);
+                _voxelizeCompute.SetBuffer(5, "_FloodFillVoxels", _floodFillSmokeBuffer);
+                _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+                _voxelizeCompute.Dispatch(5, voxelsX, voxelsY, voxelsZ);
+                // gradually increase radius over time
+                _radius += smokeGrowthSpeed * Time.deltaTime;
+            }
+            
             
             
             
@@ -340,6 +367,7 @@ public class VoxelGrid : MonoBehaviour
 
             Debug.Log("Total number of smoke voxels:" + numberOfSmokeVoxels);
         }
+        
         
         // render smoke with voxels
         if (drawSmoke)
