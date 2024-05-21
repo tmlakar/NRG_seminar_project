@@ -58,10 +58,14 @@ public class Raymarching : MonoBehaviour
     [Range(0.0f, 3.0f)] 
     public float scatteringCoefficient = 0.5f;
 
+    [Range(0.0f, 1.0f)]
+    public float alphaThreshold = 0.1f;
+    
     public Color extinctionColor = new Color(1, 1, 1);
+    
 
     [Range(0.0f, 10.0f)] 
-    public float shadowDensity = 1.0f;
+    // public float shadowDensity = 1.0f;
 
     private RenderTexture smokeTex, smokeMaskTex;
     private RenderTexture noiseTex, depthTex, smokeAlbedoFullTex, smokeMaskFullTex;
@@ -122,6 +126,9 @@ public class Raymarching : MonoBehaviour
             _smokeVoxelsBuffer = smokeVoxels.GetSmokeVoxelBuffer();
             _boundsExtent = smokeVoxels.GetBoundsExtent();
             _voxelResolution = smokeVoxels.GetVoxelResolution();
+            _raymarchingCompute.SetBuffer(0, "_SmokeVoxels", _smokeVoxelsBuffer);
+            _raymarchingCompute.SetVector("_BoundsExtent", _boundsExtent);
+            _raymarchingCompute.SetVector("_VoxelResolution", _voxelResolution);
         }
         
     }
@@ -130,16 +137,52 @@ public class Raymarching : MonoBehaviour
     {
         smokeTex = smokeAlbedoFullTex;
         smokeMaskTex = smokeMaskFullTex;
-        
-        
+        Graphics.Blit(source, depthTex, _smokeMaterial, 0); // creating depth texture
+
+        Matrix4x4 projectionMatrix = GL.GetGPUProjectionMatrix(_camera.projectionMatrix, false);
+        Matrix4x4 viewProjectionMatrix = projectionMatrix * _camera.worldToCameraMatrix;
         
         // applying post-processing effects to the rendered image
         // Graphics.Blit(source, destination);
         
         // TODO set all compute shader values
-        // TODO distpach ray marching compute shader kernel
-        // TODO set shader values to build final image
-        Graphics.Blit(source, destination);
+        _raymarchingCompute.SetInt("_TargetBufferWidth", smokeTex.width);
+        _raymarchingCompute.SetInt("_TargetBufferHeight", smokeTex.height);
+        _raymarchingCompute.SetTexture(0, "_SmokeTex", smokeTex);
+        _raymarchingCompute.SetTexture(0, "_DepthTex", depthTex);
+        _raymarchingCompute.SetTexture(0, "_SmokeMaskTex", smokeMaskTex);
+        // camera
+        _raymarchingCompute.SetMatrix("_CameraToWorld", _camera.cameraToWorldMatrix);
+        _raymarchingCompute.SetMatrix("_CameraInverseProjection", projectionMatrix.inverse);
+        _raymarchingCompute.SetMatrix("_CameraInverseViewProjection", viewProjectionMatrix.inverse);
+        _raymarchingCompute.SetVector("_CameraWorldPosition", this.transform.position);
+        // light
+        _raymarchingCompute.SetVector("_LightColor", lightColor);
+        // raymarching parameters
+        _raymarchingCompute.SetVector("_SmokeColor", smokeColor);
+        _raymarchingCompute.SetVector("_ExtinctionColor", extinctionColor);
+        _raymarchingCompute.SetFloat("_VolumeDensity", volumeDensity);
+        _raymarchingCompute.SetInt("_totalSteps", stepCount);
+        _raymarchingCompute.SetFloat("_stepSize", stepSize);
+        _raymarchingCompute.SetFloat("_LightStepSize", lightStepSize);
+        _raymarchingCompute.SetFloat("_AbsorptionCoefficient", absorptionCoefficient);
+        _raymarchingCompute.SetFloat("_ScatteringCoefficient", scatteringCoefficient);
+        _raymarchingCompute.SetFloat("_AlphaThreshold", alphaThreshold);
+        
+         
+        // TODO dispatch ray marching compute shader kernel
+        _raymarchingCompute.Dispatch(0, Mathf.CeilToInt(smokeTex.width / 8.0f), Mathf.CeilToInt(smokeTex.height / 8.0f), 1);
+       
+        // composite effects
+        _smokeMaterial.SetTexture("_SmokeTex", smokeTex);
+        _smokeMaterial.SetTexture("_SmokeMaskTex", smokeMaskTex);
+        _smokeMaterial.SetTexture("_DepthTex", depthTex);
+        _smokeMaterial.SetFloat("_Sharpness", 0.1f);
+        _smokeMaterial.SetFloat("_DebugView", 3);
+        Graphics.Blit(source, destination, _smokeMaterial, 2);
+        
+       
+        // TODO set shader values to build final imageGraphics.Blit(source, destination);
 
 
     }

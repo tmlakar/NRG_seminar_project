@@ -2677,7 +2677,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979185904}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8385500f81aea534aafb0621824301e8, type: 3}
   m_Name: 
@@ -2694,8 +2694,8 @@ MonoBehaviour:
   volumeDensity: 1
   absorptionCoefficient: 0.5
   scatteringCoefficient: 0.5
+  alphaThreshold: 0.1
   extinctionColor: {r: 1, g: 1, b: 1, a: 1}
-  shadowDensity: 1
 --- !u!4 &2037165133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 57ed529cf160aa74b816b9c53ffde622, type: 3}

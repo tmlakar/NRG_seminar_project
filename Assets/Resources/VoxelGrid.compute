@@ -179,7 +179,7 @@ void CS_Static (uint id : SV_DispatchThreadID)
     _Voxels[id.x] = 1;
 }
 
-[numthreads(1,1,1)]
+[numthreads(128,1,1)]
 void CS_SmokeOrigin (uint3 id : SV_DispatchThreadID)
 {
     float3 originPosition = _SmokeOrigin;
@@ -202,7 +202,7 @@ void GetNeighboringVoxels(int3 voxel, int3 voxelResolution, out int3 neighbors[6
     
 }
 
-[numthreads(1,1,1)]
+[numthreads(8,8,8)]
 void CS_FillSmoke (int3 id : SV_DispatchThreadID)
 {
     [branch]
@@ -284,7 +284,7 @@ void CS_FillSmoke (int3 id : SV_DispatchThreadID)
 }
 
 
-[numthreads(1,1,1)]
+[numthreads(8, 8, 8)]
 void CS_VoxelizeScene (int3 id : SV_DispatchThreadID)
 {
     [branch]
@@ -334,7 +334,7 @@ void CS_VoxelizeScene (int3 id : SV_DispatchThreadID)
     }
 }
 
-[numthreads(1, 1, 1)]
+[numthreads(8, 8, 8)]
 void CS_FloodFillToVoxels(int3 id : SV_DISPATCHTHREADID) {
     [branch]
     if (id.x >= 0 && id.x < _VoxelResolution.x &&

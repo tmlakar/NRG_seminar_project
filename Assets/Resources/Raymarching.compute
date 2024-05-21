@@ -22,7 +22,6 @@ RWTexture2D<float4> _SmokeTex;
 RWTexture2D<float> _SmokeDepthTex;
 // binary smoke mask
 RWTexture2D<half> _SmokeMaskTex;
-
 Texture2D<half> _DepthTex;
 
 // camera transformations
@@ -35,17 +34,19 @@ float3 _LightColor;
 float3 _LightDirection;
 
 float3 _SmokeColor, _ExtinctionColor;
+float _VolumeDensity;
 
 // width and height of texture resolution
 int _TargetBufferWidth, _TargetBufferHeight;
 
-int _stepSize;
-float _AbsorptionCoefficient;
+int _totalSteps;
+float _stepSize, _LightStepSize;
+float _AbsorptionCoefficient, _ScatteringCoefficient;
+float _AlphaThreshold;
 
 // transforms a position from NDC and device depth into world space coordinates
 float3 toWorldSpacePosition(float2 ndc, float depth)
 {
-    
     float4 positionClipSpace = float4(ndc * 2.0 - 1.0, depth, 1.0);
     float4 positionWorldSpace = mul(_CameraInverseViewProjection, positionClipSpace);
     float3 position = positionWorldSpace.xyz / positionWorldSpace.w; 
@@ -117,78 +118,95 @@ int getVoxelValue(float3 position)
 [numthreads(8,8,1)]
 void CS_RayMarching (uint3 id : SV_DispatchThreadID)
 {
+    // convert pixel to world space
     float2 uv = (id.xy / float2(_TargetBufferWidth, _TargetBufferHeight)); // ndc
-    float sceneDepth = _DepthTex.SampleLevel(linear_clamp_sampler, uv, 0).r;
-    
-    float3 sceneWorldPos = toWorldSpacePosition(uv, sceneDepth); // world position of pixel
+    //float sceneDepth = _DepthTex.SampleLevel(linear_clamp_sampler, uv, 0).r;
+    float3 sceneWorldPos = toWorldSpacePosition(uv, 3); // world position of pixel
     
     // create the ray from the camera that will be passing through current pixels's UV coordinates
     float3 rayOrigin = _CameraWorldPosition;
-    // UV coordinates to view space
-    float3 rayDirection = mul(_CameraInverseProjection, float4(uv*2-1, 0.0f, 1.0f)).xyz;
-    // view space to world space
-    rayDirection = mul(_CameraToWorld, float4(rayDirection, 0.0f)).xyz;
-    // unit length
+    float3 rayDirection = mul(_CameraInverseProjection, float4(uv*2-1, 0.0f, 1.0f)).xyz; // UV coordinates to view space
+    rayDirection = mul(_CameraToWorld, float4(rayDirection, 0.0f)).xyz; // view space to world space
     rayDirection = normalize(rayDirection);
 
+    // initialize values for ray marching
     float3 color = 0.0f; // for accumulated color along the way
     float alpha = 1.0f; // opacity
 
-    // current traveled distance
+    float stepSize = 0.5f;
     float traveledDistance = 0.0f;
-    // current position on ray march
-    float3 currentPosition = rayOrigin + traveledDistance * rayDirection;
-
-    // checks voxel value at current position of ray march
-    float voxelValue = getVoxelValue(currentPosition);
-
-    // distance to the intersection point or ray with scene depth
-        // essential so the ray marching process doesn't extend beyond the visible scene
-    float sceneIntersectDistance = ((sceneWorldPos - rayOrigin) / rayDirection).x;
+    float3 currentPosition = rayOrigin + traveledDistance * rayDirection; // r = o + t*d
+    
+    float voxelValue = getVoxelValue(currentPosition); // checks voxel value at current position of ray march
+    float sceneIntersectionDistance = ((sceneWorldPos - rayOrigin) / rayDirection).x; // distance to the intersection point of ray with scene depth
 
     // bigger ray marching steps before we encounter smoke voxels
     while (voxelValue == 0 && traveledDistance < MAX_DISTANCE)
     {
-        // larger step size to cover more ground
-        traveledDistance = traveledDistance + 0.5;
+        
+        traveledDistance = traveledDistance + stepSize; // larger step size to cover more ground
         currentPosition = rayOrigin + traveledDistance * rayDirection;
         voxelValue = getVoxelValue(currentPosition);
     }
 
-    // divide the ray into small segments to sample the density function at each step until exiting the volume
+    // encountered smoke, continue with more precise ray marching
     if (voxelValue > 0)
     {
-        // we go one step back to avoid missing details
-        traveledDistance = traveledDistance - 0.5;
+        traveledDistance = traveledDistance - stepSize; // one step back to avoid missing details
+
+        // set variables before precise ray march
         float thickness = 0.0f;
-        
-        color = _SmokeColor;
-
-        float extinctionCoefficient = _AbsorptionCoefficient;
-        float stepSize = _stepSize;
         float accumulatedDensity = 0.0f;
+        color = _SmokeColor;
+        stepSize = _stepSize; // smaller steps for precision
+        float lightStepSize = _LightStepSize; // step size when sampling ray towards the light
         int stepCount = 0;
-
-        float sceneIntersectionDistance = ((sceneWorldPos - rayOrigin) / rayDirection).x;
-        while ((stepCount < 265) && traveledDistance < sceneIntersectionDistance)
+        
+        float extinctionCoefficient = _AbsorptionCoefficient;
+        
+        while ((stepCount < _totalSteps) && traveledDistance < sceneIntersectionDistance)
         {
             currentPosition = rayOrigin + traveledDistance * rayDirection;
             // we convert our position to voxel space, we get the voxel value at our step
+            voxelValue = getVoxelValue(currentPosition);
             // add it to density sum
+            accumulatedDensity = accumulatedDensity + voxelValue * _VolumeDensity;
+
+            stepCount = stepCount + 1;
+            traveledDistance = traveledDistance + stepSize;
+            thickness = thickness + _stepSize * voxelValue;
+            // update alpha
+            alpha = exp(-thickness * accumulatedDensity * extinctionCoefficient);
+
+            if (alpha < _AlphaThreshold)
+            {
+                break;
+            }
+            
+        }
+
+        // we check if ray march has exceeded the scene depth. if our position has gone past the value of our depth texture, we want to stop marching
+        // that way the smoke is properly obscured by existing objects
+
+        // adjustments
+        if (traveledDistance > sceneIntersectionDistance)
+        {
+            currentPosition = currentPosition - (traveledDistance - sceneIntersectionDistance) * rayDirection;
+            thickness = thickness - traveledDistance - sceneIntersectionDistance;
+
+            voxelValue = getVoxelValue(currentPosition);
+            accumulatedDensity = accumulatedDensity + _VolumeDensity * voxelValue;
+            alpha = exp(-thickness * accumulatedDensity * extinctionCoefficient);
+
         }
         
     }
     
-    // we check if ray march has exceeded the scene depth. if our position has gone past the value of our depth texture, we want to stop marching.
-    // - that way the smoke is properly obscured by existing objects and we dont waste resources on what wont be visible
-    
-    
-    // multiply the density sum by the size of ray step
-    //once we are done marching, we calculate the transmittance with beers law to produce and alpha map that we will blend into our final image
 
     // color
-    _SmokeTex[id.xy] = float4(color.x, color.y, color.z, 1.0f);
-    _SmokeMaskTex[id.xy] = alpha;
+    _SmokeTex[id.xy] = float4(saturate(color), 1.0f);
+    // opacity values
+    _SmokeMaskTex[id.xy] = saturate(alpha);
    
 }
 
