@@ -1150,14 +1150,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawVoxelGridGizmo: 0
   drawBoxGizmo: 1
-  boundsExtent: {x: 15, y: 3, z: 15}
+  boundsExtent: {x: 15, y: 8, z: 15}
   voxelSize: 0.5
   drawStaticScene: 0
   drawSmoke: 1
   MaxFillSteps: 50
   debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _selectedSmokeShape: 0
-  smokeGrowthSpeed: 3.45
+  smokeGrowthSpeed: 2.57
   sceneToVoxelize: {fileID: 1907856715}
   intersectionBias: 0.56
 --- !u!1 &1082116808
@@ -2640,7 +2640,7 @@ Camera:
   field of view: 51
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -2664,7 +2664,7 @@ Transform:
   m_GameObject: {fileID: 1979185904}
   serializedVersion: 2
   m_LocalRotation: {x: 0.11779734, y: 0, z: 0, w: 0.9930377}
-  m_LocalPosition: {x: 0.01, y: 7.7, z: -29.58}
+  m_LocalPosition: {x: 0, y: 7.7, z: -29.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2677,7 +2677,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979185904}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8385500f81aea534aafb0621824301e8, type: 3}
   m_Name: 
@@ -2696,6 +2696,7 @@ MonoBehaviour:
   scatteringCoefficient: 0.5
   alphaThreshold: 0.1
   extinctionColor: {r: 1, g: 1, b: 1, a: 1}
+  viewTexture: 3
 --- !u!4 &2037165133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 57ed529cf160aa74b816b9c53ffde622, type: 3}

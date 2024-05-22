@@ -1,5 +1,6 @@
 #pragma kernel CS_RayMarching
 #pragma kernel CS_GenerateNoise
+#pragma kernel CS_SmokeBinaryMask
 
 #define MAX_DISTANCE 300
 #define PI 3.1415926538
@@ -214,4 +215,46 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
 void CS_GenerateNoise (uint3 id : SV_DispatchThreadID)
 {
     
+}
+
+
+[numthreads(8,8,1)]
+void CS_SmokeBinaryMask (uint3 id : SV_DispatchThreadID)
+{
+    _SmokeMaskTex[id.xy] = 0.5;
+    // convert pixel to world space
+    float2 uv = (id.xy / float2(_TargetBufferWidth, _TargetBufferHeight)); // ndc
+    //float sceneDepth = _DepthTex.SampleLevel(linear_clamp_sampler, uv, 0).r;
+    float3 sceneWorldPos = toWorldSpacePosition(uv, 3); // world position of pixel
+    
+    // create the ray from the camera that will be passing through current pixels's UV coordinates
+    float3 rayOrigin = _CameraWorldPosition;
+    float3 rayDirection = mul(_CameraInverseProjection, float4(uv*2-1, 0.0f, 1.0f)).xyz; // UV coordinates to view space
+    rayDirection = mul(_CameraToWorld, float4(rayDirection, 0.0f)).xyz; // view space to world space
+    rayDirection = normalize(rayDirection);
+    
+    int encountered = 0; // opacity
+
+    float stepSize = 0.5f;
+    float traveledDistance = 0.0f;
+    float3 currentPosition = rayOrigin + traveledDistance * rayDirection; // r = o + t*d
+    
+    float voxelValue = getVoxelValue(currentPosition); // checks voxel value at current position of ray march
+    float sceneIntersectionDistance = ((sceneWorldPos - rayOrigin) / rayDirection).x; // distance to the intersection point of ray with scene depth
+
+    // bigger ray marching steps before we encounter smoke voxels
+    while (voxelValue == 0 && traveledDistance < MAX_DISTANCE)
+    {
+        traveledDistance = traveledDistance + stepSize; // larger step size to cover more ground
+        currentPosition = rayOrigin + traveledDistance * rayDirection;
+        voxelValue = getVoxelValue(currentPosition);
+    }
+
+    // encountered smoke, continue with more precise ray marching
+    if (voxelValue > 0)
+    {
+        encountered = 1;
+        _SmokeMaskTex[id.xy] = 1;
+        return;
+    }
 }

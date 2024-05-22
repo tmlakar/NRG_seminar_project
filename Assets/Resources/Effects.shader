@@ -126,8 +126,10 @@ Shader "Custom/Effects" {
                     case 1:
                         return saturate(sharpenedSmoke);
                     case 2:
+                        // returns smoke mask
                         return 1 - smokeMask;
                     case 3:
+                        // returns depth tex
                         return _DepthTex.Sample(point_clamp_sampler, i.uv);
                 }
 

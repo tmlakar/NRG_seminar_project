@@ -6,6 +6,7 @@
 #pragma kernel CS_VoxelizeScene
 #pragma kernel CS_FloodFillToVoxels
 #pragma kernel CS_Disperse
+#pragma kernel CS_FillPlumeSmoke
 
 
 RWTexture2D<float4> Result;
@@ -25,6 +26,7 @@ int _MaxFillStep;
 uint _numberOfTriangles;
 float3 _VoxelPosition;
 float _IntersectionBias;
+float _PlumeHeight;
 
 struct Triangle
 {
@@ -348,7 +350,8 @@ void CS_FloodFillToVoxels(int3 id : SV_DISPATCHTHREADID) {
 
 
 [numthreads(1, 1, 1)]
-void CS_Disperse(int3 id : SV_DISPATCHTHREADID) {
+void CS_Disperse(int3 id : SV_DISPATCHTHREADID)
+{
     [branch]
     if (id.x >= 0 && id.x < _VoxelResolution.x &&
        id.y >= 0 && id.y < _VoxelResolution.y &&
@@ -365,3 +368,56 @@ void CS_Disperse(int3 id : SV_DISPATCHTHREADID) {
         
     }
 }
+
+[numthreads(8,8,8)]
+void CS_FillPlumeSmoke (int3 id : SV_DispatchThreadID)
+{
+    float3 coneApex = _SmokeOrigin;
+    // normalized vector
+    float3 coneAxis = normalize(float3(0.0f, 1.0f, 0.0f));
+    float maxHeight = _PlumeHeight;
+    float coneAngleDeg = 10;
+    float coneAngle = coneAngleDeg * 3.1415926538 / 180;
+     
+     [branch]
+     if (id.x >= 0 && id.x < _VoxelResolution.x &&
+        id.y >= 0 && id.y < _VoxelResolution.y &&
+        id.z >= 0 && id.z < _VoxelResolution.z)
+     {
+         int3 voxel = int3(id.x, id.y, id.z);
+ 
+         // convert voxel index to 3D position in the voxel grid
+         uint3 voxelGridPosition;
+         voxelGridPosition.x = id.x;
+         voxelGridPosition.y = id.y;
+         voxelGridPosition.z = id.z;
+         
+         uint voxelIndex = voxelGridPosition.x + voxelGridPosition.y * _VoxelResolution.x + voxelGridPosition.z * _VoxelResolution.x * _VoxelResolution.y;
+ 
+         // calculate the world position of the voxel
+         float3 worldPositionVoxel = calculateVoxelCenterPosition(voxelGridPosition);
+ 
+         // check if world position is inside cone
+         
+         float3 apexToPoint = worldPositionVoxel - _SmokeOrigin;
+         float height = dot(apexToPoint, coneAxis);
+         
+         if (height <= maxHeight && height >= coneApex.y)
+         {
+             
+             float3 perpendicularVector = apexToPoint - height * coneAxis;
+             float perpendicularDistance = length(perpendicularVector);
+             
+             float tanTheta = tan(coneAngle);
+             float radiusAtHeight = height * tanTheta;
+             
+ 
+             if (perpendicularDistance <= radiusAtHeight)
+             {
+                 _SmokeVoxels[voxelIndex] = 1;
+             }
+         }
+         
+     }
+ }
+    

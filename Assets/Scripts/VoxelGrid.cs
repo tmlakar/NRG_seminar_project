@@ -56,6 +56,7 @@ public class VoxelGrid : MonoBehaviour
         Plume
     }
     
+    
     [SerializeField]
     private SmokeShape _selectedSmokeShape;
 
@@ -64,12 +65,14 @@ public class VoxelGrid : MonoBehaviour
     
     private Vector3 _smokeOrigin;
     private float _radius;
+    private float _height;
     private bool _smokeConstantFill = false;
     private bool _smokeIterateFill = false;
     [Range(0.01f, 5.0f)]
     public float smokeGrowthSpeed = 1.0f;
     
     private Vector3 maxRadius;
+    private Vector3 maxPlumeHeight;
     
     [Header("Static scene voxelization")]
     [Space(5)]
@@ -111,7 +114,8 @@ public class VoxelGrid : MonoBehaviour
 
    private void OnEnable()
    {
-       _radius = (float)0.0;
+       _radius = 0.0f;
+       _height = 0.0f;
        // create a voxel grid
        Vector3 boundsSize = boundsExtent * 2;
        debugBounds = new Bounds(new Vector3(0, boundsExtent.y, 0), boundsSize);
@@ -208,6 +212,12 @@ public class VoxelGrid : MonoBehaviour
        args[2] = (uint)debugMesh.GetIndexStart(0);
        args[3] = (uint)debugMesh.GetBaseVertex(0);
        _argsBuffer.SetData(args);
+
+       if (_selectedSmokeShape == SmokeShape.Plume)
+       {
+           _plumeSmoke = true;
+           _cloudSmoke = false;
+       }
    }
    
    public static float EasingFunction(float t)
@@ -280,7 +290,9 @@ public class VoxelGrid : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 300))
             {
-                _radius = (float)0.0;
+                _radius = 0.0f;
+                _height = 0.0f;
+                maxPlumeHeight = new Vector3(boundsExtent.y * 2, boundsExtent.y * 2, boundsExtent.y * 2);
                 maxRadius = new Vector3(5, 3, 5);
                 _smokeOrigin = hit.point;
                 // _smokeOrigin = new Vector3(0, 0, 0);
@@ -310,20 +322,37 @@ public class VoxelGrid : MonoBehaviour
         }*/
 
         if (_smokeIterateFill) {
-            // animate smoke voxel grid
-            _voxelizeCompute.SetVector("_Radius", Vector3.Lerp(Vector3.zero, maxRadius, EasingFunction(_radius)));
-            _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
-            _voxelizeCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
-            _voxelizeCompute.SetBuffer(3, "_StaticVoxels", _staticVoxelsBuffer);
-            _voxelizeCompute.SetBuffer(3, "_FloodFillVoxels", _floodFillSmokeBuffer);
-            _voxelizeCompute.Dispatch(3, Mathf.CeilToInt(voxelsX/8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
+            if (_plumeSmoke)
+            {
+                _voxelizeCompute.SetVector("_SmokeOrigin", _smokeOrigin);
+                _voxelizeCompute.SetVector("_BoundsExtent", boundsExtent);
+                _voxelizeCompute.SetVector("_PlumeHeight", Vector3.Lerp(Vector3.zero, maxPlumeHeight, EasingFunction(_height)));
+                //_voxelizeCompute.SetVector("_PlumeHeight", maxPlumeHeight);
+                _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+                _voxelizeCompute.SetBuffer(7, "_SmokeVoxels", _smokeVoxelsBuffer);
+                _voxelizeCompute.Dispatch(7, Mathf.CeilToInt(voxelsX/8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
+                
+                // gradually increase radius over time
+                _height += smokeGrowthSpeed * Time.deltaTime; 
+            }
+            else
+            {
+               // animate smoke voxel grid
+                _voxelizeCompute.SetVector("_Radius", Vector3.Lerp(Vector3.zero, maxRadius, EasingFunction(_radius)));
+                _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+                _voxelizeCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
+                _voxelizeCompute.SetBuffer(3, "_StaticVoxels", _staticVoxelsBuffer);
+                _voxelizeCompute.SetBuffer(3, "_FloodFillVoxels", _floodFillSmokeBuffer);
+                _voxelizeCompute.Dispatch(3, Mathf.CeilToInt(voxelsX/8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
+                           
+                _voxelizeCompute.SetBuffer(5, "_SmokeVoxels", _smokeVoxelsBuffer);
+                _voxelizeCompute.SetBuffer(5, "_FloodFillVoxels", _floodFillSmokeBuffer);
+                _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
+                _voxelizeCompute.Dispatch(5, Mathf.CeilToInt(voxelsX/8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
+                // gradually increase radius over time
+                _radius += smokeGrowthSpeed * Time.deltaTime; 
+            }
             
-            _voxelizeCompute.SetBuffer(5, "_SmokeVoxels", _smokeVoxelsBuffer);
-            _voxelizeCompute.SetBuffer(5, "_FloodFillVoxels", _floodFillSmokeBuffer);
-            _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
-            _voxelizeCompute.Dispatch(5, Mathf.CeilToInt(voxelsX/8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
-            // gradually increase radius over time
-            _radius += smokeGrowthSpeed * Time.deltaTime;
             
         }
         
