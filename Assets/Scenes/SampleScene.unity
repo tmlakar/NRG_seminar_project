@@ -2637,7 +2637,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 51
+  field of view: 29
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2684,19 +2684,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smokeVoxels: {fileID: 960745117}
   lightColor: {r: 0.85660374, g: 0.81900406, b: 0.4121395, a: 0}
-  seed: 0
   smokeColor: {r: 0.2528302, g: 0.2528302, b: 0.2528302, a: 0}
-  stepCount: 32
+  stepCount: 207
   stepSize: 0.05
   lightStepCount: 8
   lightStepSize: 0.05
   smokeSize: 32
-  volumeDensity: 1
+  volumeDensity: 3
   absorptionCoefficient: 0.5
   scatteringCoefficient: 0.5
   alphaThreshold: 0.1
   extinctionColor: {r: 1, g: 1, b: 1, a: 1}
-  viewTexture: 3
+  viewTexture: 0
+  hasLogged: 0
 --- !u!4 &2037165133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 57ed529cf160aa74b816b9c53ffde622, type: 3}

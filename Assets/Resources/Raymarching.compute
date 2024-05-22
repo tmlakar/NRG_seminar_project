@@ -1,6 +1,7 @@
 #pragma kernel CS_RayMarching
-#pragma kernel CS_GenerateNoise
-#pragma kernel CS_SmokeBinaryMask
+#pragma kernel CS_InitializeSmokeMask
+#pragma kernel CS_InitializeSmokeAlbedo
+#pragma kernel CS_BinaryRayMarching
 
 #define MAX_DISTANCE 300
 #define PI 3.1415926538
@@ -22,8 +23,8 @@ RWTexture2D<float4> _SmokeTex;
 // smoke depth data
 RWTexture2D<float> _SmokeDepthTex;
 // binary smoke mask
-RWTexture2D<half> _SmokeMaskTex;
-Texture2D<half> _DepthTex;
+RWTexture2D<float> _SmokeMaskTex;
+Texture2D<float> _DepthTex;
 
 // camera transformations
 float4x4 _CameraToWorld;
@@ -121,8 +122,8 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
 {
     // convert pixel to world space
     float2 uv = (id.xy / float2(_TargetBufferWidth, _TargetBufferHeight)); // ndc
-    //float sceneDepth = _DepthTex.SampleLevel(linear_clamp_sampler, uv, 0).r;
-    float3 sceneWorldPos = toWorldSpacePosition(uv, 3); // world position of pixel
+    float sceneDepth = _DepthTex.SampleLevel(linear_clamp_sampler, uv, 0).r;
+    float3 sceneWorldPos = toWorldSpacePosition(uv, sceneDepth); // world position of pixel
     
     // create the ray from the camera that will be passing through current pixels's UV coordinates
     float3 rayOrigin = _CameraWorldPosition;
@@ -211,21 +212,27 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
    
 }
 
-[numthreads(8,8,1)]
-void CS_GenerateNoise (uint3 id : SV_DispatchThreadID)
+[numthreads(1,1,1)]
+void CS_InitializeSmokeMask (uint3 id : SV_DispatchThreadID)
 {
-    
+    _SmokeMaskTex[id.xy] = 0.0f;
+}
+
+[numthreads(1,1,1)]
+void CS_InitializeSmokeAlbedo (uint3 id : SV_DispatchThreadID)
+{
+    _SmokeTex[id.xy] = 1.0f;
 }
 
 
 [numthreads(8,8,1)]
-void CS_SmokeBinaryMask (uint3 id : SV_DispatchThreadID)
+void CS_BinaryRayMarching (uint3 id : SV_DispatchThreadID)
 {
-    _SmokeMaskTex[id.xy] = 0.5;
+    
     // convert pixel to world space
     float2 uv = (id.xy / float2(_TargetBufferWidth, _TargetBufferHeight)); // ndc
-    //float sceneDepth = _DepthTex.SampleLevel(linear_clamp_sampler, uv, 0).r;
-    float3 sceneWorldPos = toWorldSpacePosition(uv, 3); // world position of pixel
+    float sceneDepth = _DepthTex.SampleLevel(linear_clamp_sampler, uv, 0).r;
+    float3 sceneWorldPos = toWorldSpacePosition(uv, sceneDepth); // world position of pixel
     
     // create the ray from the camera that will be passing through current pixels's UV coordinates
     float3 rayOrigin = _CameraWorldPosition;
@@ -233,7 +240,7 @@ void CS_SmokeBinaryMask (uint3 id : SV_DispatchThreadID)
     rayDirection = mul(_CameraToWorld, float4(rayDirection, 0.0f)).xyz; // view space to world space
     rayDirection = normalize(rayDirection);
     
-    int encountered = 0; // opacity
+    int encountered = 0;
 
     float stepSize = 0.5f;
     float traveledDistance = 0.0f;
@@ -250,11 +257,12 @@ void CS_SmokeBinaryMask (uint3 id : SV_DispatchThreadID)
         voxelValue = getVoxelValue(currentPosition);
     }
 
-    // encountered smoke, continue with more precise ray marching
+    // encountered smoke, return value
     if (voxelValue > 0)
     {
         encountered = 1;
-        _SmokeMaskTex[id.xy] = 1;
+        _SmokeMaskTex[id.xy] = getVoxelValue(currentPosition);
         return;
     }
+   
 }

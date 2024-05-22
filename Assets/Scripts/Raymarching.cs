@@ -12,21 +12,21 @@ public class Raymarching : MonoBehaviour
     private Vector3 _boundsExtent;
     private Vector3 _voxelResolution;
 
-    public VoxelGrid smokeVoxels;
-
     private Material _smokeMaterial;
     private ComputeShader _raymarchingCompute;
+    
+    public VoxelGrid smokeVoxels;
     
     public Color lightColor;
     
     // parameters for noise generation
-    [Header("Noise settings")] 
-    [Space(5)] 
-    public int seed;
+    // [Header("Noise settings")] 
+    // [Space(5)] 
+    // public int seed;
 
    
     // parameters for smoke rendering
-    [Header("Smoke settings")] 
+    [Header("Smoke rendering settings")] 
     [Space(5)] 
     public Color smokeColor;
     
@@ -34,13 +34,11 @@ public class Raymarching : MonoBehaviour
     // number of raymarch steps
     [Range(1, 265)]
     public int stepCount = 32;
-
     // size of raymarch step
     [Range(0.01f, 0.1f)]
     public float stepSize = 0.05f;
     
     [Space(5)] 
-    // outscattering
     // number of light steps
     [Range(1, 32)]
     public int lightStepCount = 8;
@@ -50,7 +48,6 @@ public class Raymarching : MonoBehaviour
 
     [Range(0.01f, 64.0f)] 
     public float smokeSize = 32.0f;
-
     public float volumeDensity = 1.0f;
     
     // absorption and scattering
@@ -58,85 +55,105 @@ public class Raymarching : MonoBehaviour
     public float absorptionCoefficient = 0.5f;
     [Range(0.0f, 3.0f)] 
     public float scatteringCoefficient = 0.5f;
-
     [Range(0.0f, 1.0f)]
     public float alphaThreshold = 0.1f;
-    
     public Color extinctionColor = new Color(1, 1, 1);
     
 
-    [Range(0.0f, 10.0f)] 
-    // public float shadowDensity = 1.0f;
-
     private RenderTexture smokeTex, smokeMaskTex;
-    private RenderTexture noiseTex, depthTex, smokeAlbedoFullTex, smokeMaskFullTex;
+    private RenderTexture noiseTex, depthTex;
     private Texture2D debugTexture;
     
-    // rendering
-    
+    [Space(10)] 
+    public ViewTexture viewTexture;
+    // rendering settings
     public enum ViewTexture
     {
-        Composite,
-        SmokeAlbedo,
-        SmokeMask,
-        Depth
+        Composite = 0,
+        SmokeAlbedo = 1,
+        SmokeMask = 2,
+        Depth = 3
     }
 
-    public ViewTexture viewTexture;
+    public bool hasLogged = false;
+    private int raymarchKernel;
     
-
     void debugDepthTex() {
         RenderTexture.active = depthTex;
         debugTexture.ReadPixels(new Rect(0, 0, depthTex.width, depthTex.height), 0, 0);
         debugTexture.Apply();
-
-        // Get pixel data from Texture2D
         Color[] pixels = debugTexture.GetPixels();
         
-        // Loop through the pixels and print the depth values
         for (int y = 0; y < debugTexture.height; y++) {
             for (int x = 0; x < debugTexture.width; x++) {
-                float depthValue = pixels[y * debugTexture.width + x].r; // Assuming depth is stored in the red channel
+                float depthValue = pixels[y * debugTexture.width + x].r;
                 Debug.Log($"Depth at ({x}, {y}): {depthValue}");
             }
         }
         RenderTexture.active = null;
     }
 
-    void debugSmokeTex(RenderTexture rt)
+    void debugSmokeTex()
     {
-        
-    }
-
-    void debugSmokeMaskTex(RenderTexture rt)
-    {
-        RenderTexture.active = smokeMaskTex;
+        RenderTexture.active = smokeTex;
         debugTexture.ReadPixels(new Rect(0, 0, depthTex.width, depthTex.height), 0, 0);
         debugTexture.Apply();
-
-        // Get pixel data from Texture2D
         Color[] pixels = debugTexture.GetPixels();
         
-        // Loop through the pixels and print the depth values
         for (int y = 0; y < debugTexture.height; y++) {
             for (int x = 0; x < debugTexture.width; x++) {
-                float depthValue = pixels[y * debugTexture.width + x].r; // Assuming depth is stored in the red channel
-                Debug.Log($"Depth at ({x}, {y}): {depthValue}");
+                Color pixel = pixels[y * debugTexture.width + x];
+                float alphaValue = pixel.a;
+                float redValue = pixel.r;
+                float greenValue = pixel.g;
+                float blueValue = pixel.b;
+                
+                if (alphaValue > 0 || redValue > 0 || greenValue > 0 || blueValue > 0)
+                {
+                    Debug.Log($"Smoke color values at ({x}, {y}): A={alphaValue}, R={redValue}, G={greenValue}, B={blueValue}");
+                }
             }
         }
         RenderTexture.active = null;
+        
     }
+
+    void debugSmokeMaskTex()
+    {
+        RenderTexture.active = smokeMaskTex;
+        debugTexture.ReadPixels(new Rect(0, 0, smokeMaskTex.width, smokeMaskTex.height), 0, 0);
+        debugTexture.Apply();
+        Color[] pixels = debugTexture.GetPixels();
+        int allPixels = smokeMaskTex.width * smokeMaskTex.height;
+        int numberOfNonZero = 0;
+        for (int y = 0; y < debugTexture.height; y++) {
+            for (int x = 0; x < debugTexture.width; x++) {
+                float depthValue = pixels[y * debugTexture.width + x].r;
+                if (depthValue > 0)
+                {
+                    numberOfNonZero = numberOfNonZero + 1;
+                    //Debug.Log($"Mask value at ({x}, {y}): {depthValue}");
+                }
+            }
+        }
+        Debug.Log("All pixels: "+ allPixels);
+        Debug.Log("Number of non zero:" + numberOfNonZero);
+        Debug.Log("Percentage of screen covered:" + 100*((float)numberOfNonZero/(float)allPixels));
+        RenderTexture.active = null;
+    }
+    
     private void OnEnable()
     {
         // material
         _smokeMaterial = new Material(Shader.Find("Custom/Effects"));
         // compute shader
-        _raymarchingCompute = (ComputeShader)Resources.Load("VoxelGrid");
+        _raymarchingCompute = (ComputeShader)Resources.Load("Raymarching");
 
         _camera = GetComponent<Camera>();
         _light = GameObject.Find("Area Light");
         _camera.depthTextureMode = DepthTextureMode.Depth;
-        
+
+        raymarchKernel = _raymarchingCompute.FindKernel("CS_RayMarching");
         
         // TODO initialize noise variables
         if (noiseTex != null)
@@ -151,16 +168,16 @@ public class Raymarching : MonoBehaviour
         // initialize all the variables for smoke rendering
         // render textures for albedo and smoke mask
         // rgba
-        smokeAlbedoFullTex = new RenderTexture(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB64,
+        smokeTex = new RenderTexture(Screen.width/4, Screen.height/4, 0, RenderTextureFormat.ARGB64,
             RenderTextureReadWrite.Linear);
-        smokeAlbedoFullTex.enableRandomWrite = true;
-        smokeAlbedoFullTex.Create();
+        smokeTex.enableRandomWrite = true;
+        smokeTex.Create();
 
         // single (red) channel
-        smokeMaskFullTex = new RenderTexture(Screen.width, Screen.height, 0, RenderTextureFormat.RFloat,
+        smokeMaskTex = new RenderTexture(Screen.width/4, Screen.height/4, 0, RenderTextureFormat.RFloat,
             RenderTextureReadWrite.Linear);
-        smokeMaskFullTex.enableRandomWrite = true;
-        smokeMaskFullTex.Create();
+        smokeMaskTex.enableRandomWrite = true;
+        smokeMaskTex.Create();
 
         // single channel for depth
         depthTex = new RenderTexture(Screen.width, Screen.height, 0, RenderTextureFormat.RFloat,
@@ -168,20 +185,21 @@ public class Raymarching : MonoBehaviour
         depthTex.enableRandomWrite = true;
         depthTex.Create();
         
-        
         debugTexture = new Texture2D(depthTex.width, depthTex.height, TextureFormat.RFloat, false);
-
+        
+        _raymarchingCompute.SetTexture(1, "_SmokeMaskTex", smokeMaskTex);
+        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeTex.width), Mathf.CeilToInt(smokeTex.height), 1);
+        
+        _raymarchingCompute.SetTexture(2, "_SmokeTex", smokeTex);
+        _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTex.width), Mathf.CeilToInt(smokeTex.height), 1);
 
     }
 
 
     void Update()
     {
-        
-        //debugDepthTex();
         // TODO update noise 
-
-        int numberOfVoxels = 0;
+        
         // get smoke voxels to use data in ray marching
         if (smokeVoxels != null)
         {
@@ -193,13 +211,11 @@ public class Raymarching : MonoBehaviour
             _raymarchingCompute.SetVector("_VoxelResolution", _voxelResolution);
         }
         
-        /*
+        /* // debugging
         int numberOfSmokeVoxels = 0;
-        // debugging
         numberOfVoxels = (int)_voxelResolution.x*(int)_voxelResolution.y*(int)_voxelResolution.z;
-        int[] bufferData = new int[numberOfVoxels]; // Assuming int buffer
+        int[] bufferData = new int[numberOfVoxels];
         _smokeVoxelsBuffer.GetData(bufferData);
-
         for (int i = 0; i < bufferData.Length; i++)
         {
             if (bufferData[i] > 0)
@@ -207,7 +223,6 @@ public class Raymarching : MonoBehaviour
                 numberOfSmokeVoxels = numberOfSmokeVoxels + 1;
             }
         }
-
         Debug.Log("Total number of smoke voxels:" + numberOfSmokeVoxels);
         */
         
@@ -216,20 +231,15 @@ public class Raymarching : MonoBehaviour
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         // applying post-processing effects to the rendered image
-        smokeTex = smokeAlbedoFullTex;
-        smokeMaskTex = smokeMaskFullTex;
         
         // depth texture
         Graphics.Blit(source, depthTex, _smokeMaterial, 0);
-        
-        
-        
 
         Matrix4x4 projectionMatrix = GL.GetGPUProjectionMatrix(_camera.projectionMatrix, false);
         Matrix4x4 viewProjectionMatrix = projectionMatrix * _camera.worldToCameraMatrix;
         
         
-        // TODO set all compute shader values
+        // set all compute shader values
         _raymarchingCompute.SetBuffer(0, "_SmokeVoxels", _smokeVoxelsBuffer);
         _raymarchingCompute.SetInt("_TargetBufferWidth", smokeTex.width);
         _raymarchingCompute.SetInt("_TargetBufferHeight", smokeTex.height);
@@ -254,24 +264,33 @@ public class Raymarching : MonoBehaviour
         _raymarchingCompute.SetFloat("_ScatteringCoefficient", scatteringCoefficient);
         _raymarchingCompute.SetFloat("_AlphaThreshold", alphaThreshold);
         
+        // binary ray march where SmokeMaskTex is set to 1 if encountered voxel
+        _raymarchingCompute.SetTexture(3, "_SmokeMaskTex", smokeMaskTex);
+        _raymarchingCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
+        _raymarchingCompute.SetInt("_TargetBufferWidth", smokeMaskTex.width);
+        _raymarchingCompute.SetInt("_TargetBufferHeight", smokeMaskTex.height);
+        _raymarchingCompute.Dispatch(3, Mathf.CeilToInt(smokeMaskTex.width / 8.0f), Mathf.CeilToInt(smokeMaskTex.height / 8.0f), 1);
          
-        // TODO dispatch ray marching compute shader kernel
-        _raymarchingCompute.SetBuffer(2, "_SmokeVoxels", _smokeVoxelsBuffer);
-        _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTex.width / 8.0f), Mathf.CeilToInt(smokeTex.height / 8.0f), 1);
-       
-        
+         
+         
         // composite effects
+        // set shader values to build final image Graphics.Blit(source, destination);
         _smokeMaterial.SetTexture("_SmokeTex", smokeTex);
-        _smokeMaterial.SetTexture("_SmokeMaskTex", smokeMaskTex);
+        _smokeMaterial.SetTexture("_SmokeMaskTex", smokeTex);
         _smokeMaterial.SetTexture("_DepthTex", depthTex);
-        _smokeMaterial.SetFloat("_Sharpness", 1.0f);
+        _smokeMaterial.SetFloat("_Sharpness", 0.0f);
         _smokeMaterial.SetFloat("_DebugView", (int)viewTexture);
-        Graphics.Blit(source, destination, _smokeMaterial, 2);
-        
-       
-        // TODO set shader values to build final imageGraphics.Blit(source, destination);
+        Graphics.Blit(source, destination, _smokeMaterial, 1);
 
-
+        if (hasLogged)
+        {
+            
+            Debug.Log("Smoke mask width: " + smokeMaskTex.width);
+            Debug.Log("Smoke mask height: " + smokeMaskTex.height);
+            debugSmokeMaskTex();
+            //debugDepthTex();
+            hasLogged = false;
+        }
     }
 }
 

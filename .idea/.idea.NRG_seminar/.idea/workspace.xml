@@ -8,23 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.NRG_seminar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NRG_seminar/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Effects.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Effects.shader" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Resources/Raymarching.compute" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Raymarching.compute" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/VoxelGrid.compute" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/VoxelGrid.compute" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Raymarching.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Raymarching.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/VoxelGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/VoxelGrid.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/ArtifactDB" beforeDir="false" afterPath="$PROJECT_DIR$/Library/ArtifactDB" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/05/0509f71e757ddd3bc63b041f4f1da47e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/1e/1ef7405671c346288b654a73d69e6858" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/33/3359b641d34ba5f9504aaeb81d4ade10" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/3f/3fd3099f791ba6a0283a3f6787f8fa4d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/4a/4aa6096341c6e4464b0c819f2f01f09a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/4c/4cac2e6eac27b31cd0f71ad35385c098" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/79/7987f9c0550330748ef6e054f40086be" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/89/89056b71b7bbf37876de8d0c771afe2f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/a6/a6b4602d30d0b025efab5c52f729ca18" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/eb/eb5559e6304d4bf2c53f26079e532a93" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/f3/f3905004d7d1951d5b6d1b1ace9b2f8d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/Artifacts/f6/f6860a5072f695827fd3a99110b34f55" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/68/68c9f067a15e908a832f424d356ef0e1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/Artifacts/98/98e023dbb24b7dd922f2dc6943c7ce1d" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Bee/TundraBuildState.state" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Bee/TundraBuildState.state" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Bee/TundraBuildState.state.map" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Bee/TundraBuildState.state.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll" afterDir="false" />
@@ -34,78 +22,83 @@
       <change beforePath="$PROJECT_DIR$/Library/Bee/fullprofile.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Bee/fullprofile.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Bee/tundra.digestcache" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Bee/tundra.digestcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Bee/tundra.log.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Bee/tundra.log.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/InspectorExpandedItems.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Library/InspectorExpandedItems.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/SceneVisibilityState.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Library/SceneVisibilityState.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/ScriptAssemblies/Assembly-CSharp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Library/ScriptAssemblies/Assembly-CSharp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/ScriptAssemblies/Assembly-CSharp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Library/ScriptAssemblies/Assembly-CSharp.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/Search/transactions.db" beforeDir="false" afterPath="$PROJECT_DIR$/Library/Search/transactions.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/EditorEncounteredVariants" beforeDir="false" afterPath="$PROJECT_DIR$/Library/ShaderCache/EditorEncounteredVariants" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/00/3e0e2afa44a60136ba5ce7a9ee2a1589.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/00/44626d81faac3ee618cd3c054f3f327b.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/01/95bfb03ca229b4fc6a92d1a3db853b67.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/01/f466a0ddd54770f97df364762a67b32b.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/02/2b1912dea2fcb20d8a21e6540d7f1175.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/02/98b9aec2522246b14f410d48d86d0547.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/03/63e09e8c8c1993667bede55f4d5a6779.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/03/a04fbfbcfa5d37d6ce7200c710cfdf41.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/04/acecf5a89cde61bfa9aaaa68e4d07158.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/04/fff8b2e9fb71db602e76d4f65bda1bd8.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/00/59d02be0b7002f5192581904b68b725b.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/00/6bf9349c2a2fb2af9c09b91be190bdbe.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/00/8ab047b2fc78da230beafdbb69662114.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/00/a16c8c51c7b9a727d40bda2cd628bc8e.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/00/a4d34622542fb86836dd6e38cd973ede.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/00/f068adeb8c1891844dfc80beb61f0e6f.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/00/f0741227b3cedc28a7164959e87c9382.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/193b4017bc6672f1275dc8f790401fcc.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/2310e69b741fbecc3b737e5d1dd828c8.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/25b4f5472566a0628fe4e272535553bb.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/46490d22c39a85c161846d71b93bd00d.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/5ab7bd114fb3001816e9d7d10bddc7e0.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/8696307d12643539e753ef492da528c9.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/a75d4984416990bda0fca8389509ee00.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/014564c49a3f71409cfecf81a1e765fa.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/0d3d29d9fe08383be9c2b850ba138b85.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/27d85aba3363934706e8aed378c76263.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/6db3b2f918ad4106cba687aaacadaa69.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/bcf93d4b774a81ecda592d21b5dadb28.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/f1c12f45e42e76b1bf2018bee0b17598.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/f7b75b360807357b65f2465572dd8c19.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/22f12b16761c70a32ca45bffb1a8626e.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/390e0df3e54d4ee1e28fe34ef3dca864.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/541b42459aca5abd5171b0b8acc30d5b.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/a090788d23be81137d8ddeb6994de64e.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/d740ae620816dbbd60ac681c673fd7b6.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/e26a3c411d0d32957d2c586b086082fb.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/4973bdde8b76d099e758a987a9f83823.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/5cf220c418bcf9e3eb845bb30be9b4a6.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/7d24b6dfa8032a5f11f2006a2033f9fa.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/e06e04f4bb044a12806aa0e988fc8281.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/e9a5db3075cfe239f448987aaf901f83.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/fb952f24ad6713a72f5add75e94fb13f.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/00/0824cd3eafed08ef42e98e7deed0d2a2.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/00/c1f1f01d7616f3c20f13cb31a8e50ca1.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/02/2c94ed57c2b518591e6c0a5f0ad6e035.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/02/30c5111789c46f2f01087ab1097fe660.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/02/3816da6c823baffd3f55e4d2317958d5.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/02/5b5565c70c1a5fb3a68bd28a35490dc0.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/02/67532cfde8e115b3a092c0282756d70a.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/02/7d99e268b32e70541f2775c459fd6c67.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/02/a1e4d8196dff3872b0b4527c913eba87.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/02/d40d77cec0f9b129fe2b00f07c63ea42.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache.db" beforeDir="false" afterPath="$PROJECT_DIR$/Library/ShaderCache.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/00/4f80c3c1445db7639319bf538af573ff.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/00/7e0c2b3e899c16a0c50247ea8cd8b74c.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/00/fbe796d8731f205915ea92b96e966a83.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/01/01a65d33e0f5fd77794ea4de17c3271b.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/01/72d648346a11e9bd597de1c4bc425a9e.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/01/80c3dc58d01882b9703ff3c6c8a5be0c.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/02/0a4c03280ed484fc1b67786c943ea135.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/02/2ff0df272d7cdde99edbefd4f52ab865.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/02/c9b98c22a6dc3c08723628bbebbab62a.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/03/2871a6bf093245be4b04b4e7947b6497.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/03/b6875268f3b34e5b66b5db2af649e5cd.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/03/e33f68ec831a9fd5ee181fe3dbb2c67f.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/04/a2624e682f17865a0be23a60eaa08cc7.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/04/f6b1a0552d2cba0cd63915fbbd2351e1.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/Raymarching7290/04/fd69ea7b4732d14c0295aa67768195cb.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/066fedb12fef6dab613e1d9161b30788.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/1ede98c92db0452bd7222dc9955abdbf.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/2f7e1c7446c51de14b5645cf9a4df3ca.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/4fe24934872c8038ec76eaa886c377e4.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/89280ec66fabd8c94acd4040c77207b0.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/c16d08c80a86506a63d0a637ec70f888.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/d2b5aa84dc61ca882258873ceb1f1949.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/01/e57a62eb991ca6060c7d6ae4cc73ed20.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/143bfbc089c31212ec421b718509c16e.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/792f6bb8c2fc1623195c00fa205a91ab.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/8d512d06018503d2b99f47586d66b38f.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/983195357ec8b92cb7bc67b68113acaa.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/a71cf54d0703e5e60e3908c642309ec5.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/c07561ebdf88295d5219a32e64b3e586.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/cbacc8ec51d2c9483fa654a03bf0c548.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/02/e87ca40dcffc258cbb2a6c6ca73fcec4.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/08b5c2c3db93cdd6445a01afc68a9a54.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/1a3248e10470b90eb43dab5212de4a34.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/7340101609fd8869a1a04c5ea1809934.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/81f63b397a0fdad82b89607d40831e9a.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/a18cd445eda5e6756cb39851d52adbd5.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/c95f733baabb27bee12caa32d443557f.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/d2e87d738a7a8dfe867a11bae819f08a.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/03/f00ad57a28c4d34c94282d9758af06ad.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/14a8b792c2340f8e6c97f71b03644897.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/1b47040c93372d0743bba40efdc9a22a.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/27192cd0dca041131dda059d7c8f217c.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/35369f25ca1981b259d47a028338bb7a.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/3fcf2a020cdd543c1d36ed9d37e57451.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/4bf1ddd480840f18ad4ad9dd06714e32.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/83287c1485dcb160e41a06bad136c57a.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/compute/VoxelGridcedf/04/e2470af18a6590583cd6d372cfa2443c.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/00/0452f38f98b74dee4ae3b6825fcd5730.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/00/4b0244ffc3b2aa13505f397cb58366d9.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/00/6c19ebe2061c810dd241e27cf08a849a.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/00/7379be8a393a5711d84ca1df7fe1a5d4.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/00/96dfde4dfa811fcb995ab1e1f70883bf.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/00/d84cd2f1da621768821fe65e26983a9f.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/01/7338551e2e324249829542d8c2a3be88.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/01/e6f5bacea5ec55f62dd5a892150e9a32.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/03/0824cd3eafed08ef42e98e7deed0d2a2.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/03/c1f1f01d7616f3c20f13cb31a8e50ca1.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/04/4d4f385e1b85ea83695439565d78c5bb.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Library/ShaderCache/shader/Effects98ab/04/ee7181129f04230717fd1b81a42d257f.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/SourceAssetDB" beforeDir="false" afterPath="$PROJECT_DIR$/Library/SourceAssetDB" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/StateCache/MainStageHierarchy/4d/4d2a36d9faf65734f0bbefb3ee623532.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/StateCache/MainStageHierarchy/4d/4d2a36d9faf65734f0bbefb3ee623532.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/StateCache/SceneView/8c/8cd7c613bf844de3b80696e27a479d5e.json" beforeDir="false" afterPath="$PROJECT_DIR$/Library/StateCache/SceneView/8c/8cd7c613bf844de3b80696e27a479d5e.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Library/ilpp.pid" beforeDir="false" afterPath="$PROJECT_DIR$/Library/ilpp.pid" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0-prev.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0-prev.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker0.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker1-prev.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker1-prev.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker1.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/AssetImportWorker1.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-AssetImportWorker0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/shadercompiler-AssetImportWorker0.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logs/AssetImportWorker1.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-AssetImportWorker0.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe0.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe0.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe1.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe1.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe2.log" beforeDir="false" afterPath="$PROJECT_DIR$/Logs/shadercompiler-UnityShaderCompiler.exe2.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2022.dwlt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,6 +118,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -228,6 +222,9 @@
       <workItem from="1716273671848" duration="16605000" />
       <workItem from="1716295117798" duration="19096000" />
       <workItem from="1716359597779" duration="4643000" />
+      <workItem from="1716365668126" duration="16950000" />
+      <workItem from="1716387302694" duration="4809000" />
+      <workItem from="1716392265240" duration="2591000" />
     </task>
     <servers />
   </component>
