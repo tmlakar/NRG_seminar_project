@@ -80,7 +80,7 @@ Shader "Custom/Effects" {
                         return saturate(sharpenedSmoke);
                     case 2:
                         // returns inverted smoke mask
-                        return float4(1 - smokeMask, 1 - smokeMask, 1 - smokeMask, 1);
+                        return 1 - smokeMask;
                     case 3:
                         // returns depth tex
                         return _DepthTex.Sample(point_clamp_sampler, i.uv);
@@ -92,7 +92,7 @@ Shader "Custom/Effects" {
             ENDCG
         }
 
-        // 9-Tap Catmull-Rom filtering for supersampling from: https://gist.github.com/TheRealMJP/c83b8c0f46b63f3a88a5986f4fa982b1
+        // 9-Tap Catmull-Rom filtering for bicubic interpolation (supersampling) from: https://gist.github.com/TheRealMJP/c83b8c0f46b63f3a88a5986f4fa982b1
         Pass {
             CGPROGRAM
             #pragma vertex vp
