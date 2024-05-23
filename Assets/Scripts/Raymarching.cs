@@ -76,7 +76,7 @@ public class Raymarching : MonoBehaviour
     }
 
     public bool hasLogged = false;
-    private int raymarchKernel;
+    
     
     void debugDepthTex() {
         RenderTexture.active = depthTex;
@@ -129,7 +129,7 @@ public class Raymarching : MonoBehaviour
         for (int y = 0; y < debugTexture.height; y++) {
             for (int x = 0; x < debugTexture.width; x++) {
                 float depthValue = pixels[y * debugTexture.width + x].r;
-                if (depthValue > 0)
+                if (depthValue == 1.0f)
                 {
                     numberOfNonZero = numberOfNonZero + 1;
                     //Debug.Log($"Mask value at ({x}, {y}): {depthValue}");
@@ -153,7 +153,6 @@ public class Raymarching : MonoBehaviour
         _light = GameObject.Find("Area Light");
         _camera.depthTextureMode = DepthTextureMode.Depth;
 
-        raymarchKernel = _raymarchingCompute.FindKernel("CS_RayMarching");
         
         // TODO initialize noise variables
         if (noiseTex != null)
@@ -187,18 +186,19 @@ public class Raymarching : MonoBehaviour
         
         debugTexture = new Texture2D(depthTex.width, depthTex.height, TextureFormat.RFloat, false);
         
-        _raymarchingCompute.SetTexture(1, "_SmokeMaskTex", smokeMaskTex);
-        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeTex.width), Mathf.CeilToInt(smokeTex.height), 1);
+        
         
         _raymarchingCompute.SetTexture(2, "_SmokeTex", smokeTex);
         _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTex.width), Mathf.CeilToInt(smokeTex.height), 1);
 
+        _raymarchingCompute.SetTexture(1, "_SmokeMaskTex", smokeMaskTex);
+        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeTex.width), Mathf.CeilToInt(smokeTex.height), 1);
+        
     }
 
 
     void Update()
     {
-        // TODO update noise 
         
         // get smoke voxels to use data in ray marching
         if (smokeVoxels != null)
@@ -272,6 +272,8 @@ public class Raymarching : MonoBehaviour
         _raymarchingCompute.Dispatch(3, Mathf.CeilToInt(smokeMaskTex.width / 8.0f), Mathf.CeilToInt(smokeMaskTex.height / 8.0f), 1);
          
          
+        // supersampling (when textures are less than full resolution)
+        // enlarge the textures before compositing the effects
          
         // composite effects
         // set shader values to build final image Graphics.Blit(source, destination);

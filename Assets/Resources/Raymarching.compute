@@ -215,7 +215,9 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
 [numthreads(1,1,1)]
 void CS_InitializeSmokeMask (uint3 id : SV_DispatchThreadID)
 {
-    _SmokeMaskTex[id.xy] = 0.0f;
+    float4 color = _SmokeMaskTex[id.xy];
+    color.r = 0;
+    _SmokeMaskTex[id.xy] = color.r;
 }
 
 [numthreads(1,1,1)]
@@ -261,7 +263,9 @@ void CS_BinaryRayMarching (uint3 id : SV_DispatchThreadID)
     if (voxelValue > 0)
     {
         encountered = 1;
-        _SmokeMaskTex[id.xy] = getVoxelValue(currentPosition);
+        float4 color = _SmokeMaskTex[id.xy];
+        color.r = 1;
+        _SmokeMaskTex[id.xy] = color;
         return;
     }
    
