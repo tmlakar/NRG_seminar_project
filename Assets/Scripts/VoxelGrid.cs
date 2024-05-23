@@ -146,19 +146,20 @@ public class VoxelGrid : MonoBehaviour
        
        // compute shader for voxelization of the scene
        _voxelizeCompute = (ComputeShader)Resources.Load("VoxelGrid");
-       
 
-       _voxelizeCompute.SetBuffer(1, "_Voxels", _voxelsBuffer);
-       _voxelizeCompute.Dispatch(1, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+
+       drawVoxelGrid = false;
+      // _voxelizeCompute.SetBuffer(1, "_Voxels", _voxelsBuffer);
+      // _voxelizeCompute.Dispatch(1, Mathf.CeilToInt(numberOfVoxels / 16.0f), 1, 1);
        
        _voxelizeCompute.SetBuffer(0, "_Voxels", _smokeVoxelsBuffer);
-       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 32.0f), 1, 1);
        
        _voxelizeCompute.SetBuffer(0, "_Voxels", _floodFillSmokeBuffer);
-       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 32.0f), 1, 1);
 
        _voxelizeCompute.SetBuffer(0, "_Voxels", _staticVoxelsBuffer);
-       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+       _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 32.0f), 1, 1);
 
        long allTriangles = 0;
        // voxelization of the static objects in the scene
@@ -192,7 +193,7 @@ public class VoxelGrid : MonoBehaviour
            _voxelizeCompute.SetVector("_BoundsExtent", boundsExtent);
            _voxelizeCompute.SetFloat("_VoxelSize", voxelSize);
            _voxelizeCompute.SetFloat("_IntersectionBias", intersectionBias);
-           _voxelizeCompute.Dispatch(4, Mathf.CeilToInt( voxelsX / 8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
+           _voxelizeCompute.Dispatch(4, Mathf.CeilToInt( voxelsX / 32.0f), voxelsY, voxelsZ);
            
            allTriangles = allTriangles + sharedMesh.triangles.Length;
            
@@ -235,7 +236,6 @@ public class VoxelGrid : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (drawVoxelGrid)
         {
             // draw the full voxel grid resolution
@@ -282,10 +282,10 @@ public class VoxelGrid : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             _voxelizeCompute.SetBuffer(0, "_Voxels", _smokeVoxelsBuffer);
-            _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+            _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 16.0f), 1, 1);
        
             _voxelizeCompute.SetBuffer(0, "_Voxels", _floodFillSmokeBuffer);
-            _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+            _voxelizeCompute.Dispatch(0, Mathf.CeilToInt(numberOfVoxels / 16.0f), 1, 1);
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 300))
@@ -301,7 +301,7 @@ public class VoxelGrid : MonoBehaviour
                 _voxelizeCompute.SetBuffer(2, "_SmokeVoxels", _smokeVoxelsBuffer);
                 _voxelizeCompute.SetInt("_MaxFillStep", MaxFillSteps);
                 // fill smoke origin in the voxel grid
-                _voxelizeCompute.Dispatch(2, Mathf.CeilToInt(numberOfVoxels / 128.0f), 1, 1);
+                _voxelizeCompute.Dispatch(2, Mathf.CeilToInt(numberOfVoxels / 32.0f), 1, 1);
 
                 _smokeConstantFill = true;
                 _smokeIterateFill = true;
@@ -330,7 +330,7 @@ public class VoxelGrid : MonoBehaviour
                 //_voxelizeCompute.SetVector("_PlumeHeight", maxPlumeHeight);
                 _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
                 _voxelizeCompute.SetBuffer(7, "_SmokeVoxels", _smokeVoxelsBuffer);
-                _voxelizeCompute.Dispatch(7, Mathf.CeilToInt(voxelsX/8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
+                _voxelizeCompute.Dispatch(7, Mathf.CeilToInt(voxelsX/32.0f), voxelsY, voxelsZ);
                 
                 // gradually increase radius over time
                 _height += smokeGrowthSpeed * Time.deltaTime; 
@@ -343,12 +343,12 @@ public class VoxelGrid : MonoBehaviour
                 _voxelizeCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
                 _voxelizeCompute.SetBuffer(3, "_StaticVoxels", _staticVoxelsBuffer);
                 _voxelizeCompute.SetBuffer(3, "_FloodFillVoxels", _floodFillSmokeBuffer);
-                _voxelizeCompute.Dispatch(3, Mathf.CeilToInt(voxelsX/8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
+                _voxelizeCompute.Dispatch(3, Mathf.CeilToInt(voxelsX/32.0f), Mathf.CeilToInt(voxelsY), Mathf.CeilToInt(voxelsZ));
                            
                 _voxelizeCompute.SetBuffer(5, "_SmokeVoxels", _smokeVoxelsBuffer);
                 _voxelizeCompute.SetBuffer(5, "_FloodFillVoxels", _floodFillSmokeBuffer);
                 _voxelizeCompute.SetVector("_VoxelResolution", new Vector3(voxelsX, voxelsY, voxelsZ));
-                _voxelizeCompute.Dispatch(5, Mathf.CeilToInt(voxelsX/8.0f), Mathf.CeilToInt(voxelsY/8.0f), Mathf.CeilToInt(voxelsZ/8.0f));
+                _voxelizeCompute.Dispatch(5, Mathf.CeilToInt(voxelsX/32.0f), voxelsY, voxelsZ);
                 // gradually increase radius over time
                 _radius += smokeGrowthSpeed * Time.deltaTime; 
             }

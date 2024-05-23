@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 [RequireComponent(typeof(Camera))]
 public class Raymarching : MonoBehaviour
@@ -75,8 +79,8 @@ public class Raymarching : MonoBehaviour
         Depth = 3
     }
 
-    public bool hasLogged = false;
-    
+    public bool createRenders = false;
+
     
     void debugDepthTex() {
         RenderTexture.active = depthTex;
@@ -141,6 +145,70 @@ public class Raymarching : MonoBehaviour
         Debug.Log("Percentage of screen covered:" + 100*((float)numberOfNonZero/(float)allPixels));
         RenderTexture.active = null;
     }
+
+    void SaveSceneRenderToPNG(String filepath)
+    {
+        Camera cam = GetComponent<Camera>();
+        RenderTexture currentRT = RenderTexture.active;
+        RenderTexture.active = cam.targetTexture;
+        
+        cam.Render();
+        
+        Texture2D sceneTexture = new Texture2D(Screen.width, Screen.height);
+        sceneTexture.ReadPixels(new Rect(0, 0, sceneTexture.width, sceneTexture.height), 0, 0);
+        sceneTexture.Apply();
+        RenderTexture.active = currentRT;
+
+        var Bytes = sceneTexture.EncodeToPNG();
+        Destroy(sceneTexture);
+        File.WriteAllBytes(filepath, Bytes);
+
+    }
+    void SaveRenderTextureToPNG(RenderTexture renderTexture, String filepath)
+    {
+        
+        Texture2D currentTexture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA64, false);
+        RenderTexture.active = renderTexture;
+        
+        Texture2D texture2D;
+        if (renderTexture.format == RenderTextureFormat.RFloat)
+        {
+            // Handle RFloat format
+            texture2D = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RFloat, false);
+            texture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+            texture2D.Apply();
+
+            // Create a new texture to store the R channel as grayscale
+            Texture2D grayscaleTexture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
+
+            for (int y = 0; y < renderTexture.height; y++)
+            {
+                for (int x = 0; x < renderTexture.width; x++)
+                {
+                    float rValue = texture2D.GetPixel(x, y).r;
+                    Color grayscaleColor = new Color(rValue, 0, 0); // Red channel value to grayscale
+                    grayscaleTexture.SetPixel(x, y, grayscaleColor);
+                }
+            }
+
+            grayscaleTexture.Apply();
+            byte[] bytes = grayscaleTexture.EncodeToPNG();
+            File.WriteAllBytes(filepath, bytes);
+            Destroy(grayscaleTexture);
+        }
+        else
+        { 
+            currentTexture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0); 
+            currentTexture2D.Apply();
+                  
+          byte[] bytes = currentTexture2D.EncodeToPNG();
+          File.WriteAllBytes(filepath, bytes);
+          
+        }
+        RenderTexture.active = null;
+        Destroy(currentTexture2D);
+        Debug.Log("RenderedTexture saved to: " + filepath);  
+    }
     
     private void OnEnable()
     {
@@ -187,7 +255,6 @@ public class Raymarching : MonoBehaviour
         debugTexture = new Texture2D(depthTex.width, depthTex.height, TextureFormat.RFloat, false);
         
         
-        
         _raymarchingCompute.SetTexture(2, "_SmokeTex", smokeTex);
         _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTex.width), Mathf.CeilToInt(smokeTex.height), 1);
 
@@ -210,21 +277,6 @@ public class Raymarching : MonoBehaviour
             _raymarchingCompute.SetVector("_BoundsExtent", _boundsExtent);
             _raymarchingCompute.SetVector("_VoxelResolution", _voxelResolution);
         }
-        
-        /* // debugging
-        int numberOfSmokeVoxels = 0;
-        numberOfVoxels = (int)_voxelResolution.x*(int)_voxelResolution.y*(int)_voxelResolution.z;
-        int[] bufferData = new int[numberOfVoxels];
-        _smokeVoxelsBuffer.GetData(bufferData);
-        for (int i = 0; i < bufferData.Length; i++)
-        {
-            if (bufferData[i] > 0)
-            {
-                numberOfSmokeVoxels = numberOfSmokeVoxels + 1;
-            }
-        }
-        Debug.Log("Total number of smoke voxels:" + numberOfSmokeVoxels);
-        */
         
     }
     
@@ -270,11 +322,10 @@ public class Raymarching : MonoBehaviour
         _raymarchingCompute.SetInt("_TargetBufferWidth", smokeMaskTex.width);
         _raymarchingCompute.SetInt("_TargetBufferHeight", smokeMaskTex.height);
         _raymarchingCompute.Dispatch(3, Mathf.CeilToInt(smokeMaskTex.width / 8.0f), Mathf.CeilToInt(smokeMaskTex.height / 8.0f), 1);
-         
-         
+        
         // supersampling (when textures are less than full resolution)
         // enlarge the textures before compositing the effects
-         
+        
         // composite effects
         // set shader values to build final image Graphics.Blit(source, destination);
         _smokeMaterial.SetTexture("_SmokeTex", smokeTex);
@@ -284,15 +335,24 @@ public class Raymarching : MonoBehaviour
         _smokeMaterial.SetFloat("_DebugView", (int)viewTexture);
         Graphics.Blit(source, destination, _smokeMaterial, 1);
 
-        if (hasLogged)
+        if (createRenders)
         {
-            
-            Debug.Log("Smoke mask width: " + smokeMaskTex.width);
-            Debug.Log("Smoke mask height: " + smokeMaskTex.height);
-            debugSmokeMaskTex();
+            //SaveRenderTextureToPNG(depthTex, "RenderedImages/sceneDepthMask.png");
+            SaveRenderTextureToPNG(smokeMaskTex, "RenderedImages/smokeMask.png");
+            SaveRenderTextureToPNG(smokeTex, "RenderedImages/smokeAlbedo.png");
+            SaveSceneRenderToPNG("RenderedImages/scene.png");
+            //debugSmokeMaskTex();
             //debugDepthTex();
-            hasLogged = false;
+            createRenders = false;
         }
+        
+    }
+
+    private void OnDisable()
+    {
+        smokeTex.Release();
+        smokeMaskTex.Release();
+        depthTex.Release();
     }
 }
 

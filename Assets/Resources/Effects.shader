@@ -92,7 +92,7 @@ Shader "Custom/Effects" {
             ENDCG
         }
 
-        // 9-Tap Catmull-Rom filtering from: https://gist.github.com/TheRealMJP/c83b8c0f46b63f3a88a5986f4fa982b1
+        // 9-Tap Catmull-Rom filtering for supersampling from: https://gist.github.com/TheRealMJP/c83b8c0f46b63f3a88a5986f4fa982b1
         Pass {
             CGPROGRAM
             #pragma vertex vp

@@ -167,21 +167,21 @@ bool intersectionFound(Triangle tri, AABB aabb)
     return true;
 }
 
-[numthreads(128,1,1)]
+[numthreads(32,1,1)]
 void CS_Clear (uint id : SV_DispatchThreadID)
 {
     // empty voxel
     _Voxels[id.x] = 0;
 }
 
-[numthreads(128,1,1)]
+[numthreads(16,1,1)]
 void CS_Static (uint id : SV_DispatchThreadID)
 {
     // static voxel
     _Voxels[id.x] = 1;
 }
 
-[numthreads(128,1,1)]
+[numthreads(32,1,1)]
 void CS_SmokeOrigin (uint3 id : SV_DispatchThreadID)
 {
     float3 originPosition = _SmokeOrigin;
@@ -204,7 +204,7 @@ void GetNeighboringVoxels(int3 voxel, int3 voxelResolution, out int3 neighbors[6
     
 }
 
-[numthreads(8,8,8)]
+[numthreads(32,1,1)]
 void CS_FillSmoke (int3 id : SV_DispatchThreadID)
 {
     [branch]
@@ -286,7 +286,7 @@ void CS_FillSmoke (int3 id : SV_DispatchThreadID)
 }
 
 
-[numthreads(8, 8, 8)]
+[numthreads(32, 1, 1)]
 void CS_VoxelizeScene (int3 id : SV_DispatchThreadID)
 {
     [branch]
@@ -336,7 +336,7 @@ void CS_VoxelizeScene (int3 id : SV_DispatchThreadID)
     }
 }
 
-[numthreads(8, 8, 8)]
+[numthreads(32, 1, 1)]
 void CS_FloodFillToVoxels(int3 id : SV_DISPATCHTHREADID) {
     [branch]
     if (id.x >= 0 && id.x < _VoxelResolution.x &&
@@ -349,7 +349,7 @@ void CS_FloodFillToVoxels(int3 id : SV_DISPATCHTHREADID) {
 }
 
 
-[numthreads(1, 1, 1)]
+[numthreads(32, 1, 1)]
 void CS_Disperse(int3 id : SV_DISPATCHTHREADID)
 {
     [branch]
@@ -369,14 +369,14 @@ void CS_Disperse(int3 id : SV_DISPATCHTHREADID)
     }
 }
 
-[numthreads(8,8,8)]
+[numthreads(32,1, 1)]
 void CS_FillPlumeSmoke (int3 id : SV_DispatchThreadID)
 {
     float3 coneApex = _SmokeOrigin;
     // normalized vector
     float3 coneAxis = normalize(float3(0.0f, 1.0f, 0.0f));
-    float maxHeight = _PlumeHeight;
-    float coneAngleDeg = 10;
+    float maxHeight = _PlumeHeight-3;
+    float coneAngleDeg = 18;
     float coneAngle = coneAngleDeg * 3.1415926538 / 180;
      
      [branch]
