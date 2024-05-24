@@ -75,7 +75,8 @@ Shader "Custom/Effects" {
                 switch (_DebugView) {
                     case 0:
                         // return col + smokeAlbedo (combine color of the scene beforehand with color of the smoke)
-                        return col;
+                        return lerp(col, saturate(sharpenedSmoke), 1 - smokeMask);
+                        //return col;
                     case 1:
                         return saturate(sharpenedSmoke);
                     case 2:

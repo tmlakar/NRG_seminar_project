@@ -376,8 +376,10 @@ void CS_FillPlumeSmoke (int3 id : SV_DispatchThreadID)
     // normalized vector
     float3 coneAxis = normalize(float3(0.0f, 1.0f, 0.0f));
     float maxHeight = _PlumeHeight-3;
-    float coneAngleDeg = 18;
+    float coneAngleDeg = 22;
     float coneAngle = coneAngleDeg * 3.1415926538 / 180;
+    float maxFill = 16;
+    
      
      [branch]
      if (id.x >= 0 && id.x < _VoxelResolution.x &&
@@ -414,7 +416,7 @@ void CS_FillPlumeSmoke (int3 id : SV_DispatchThreadID)
  
              if (perpendicularDistance <= radiusAtHeight)
              {
-                 _SmokeVoxels[voxelIndex] = 1;
+                 _SmokeVoxels[voxelIndex] = ceil((maxHeight-height)*0.01*maxFill);
              }
          }
          

@@ -22,7 +22,7 @@ public class Raymarching : MonoBehaviour
     public VoxelGrid smokeVoxels;
     
     public Color lightColor;
-    
+    private Vector3 _lightPosition;
     // parameters for noise generation
     // [Header("Noise settings")] 
     // [Space(5)] 
@@ -53,10 +53,11 @@ public class Raymarching : MonoBehaviour
     [Range(0.01f, 64.0f)] 
     public float smokeSize = 32.0f;
     public float volumeDensity = 1.0f;
-    
     // absorption and scattering
     [Range(0.0f, 3.0f)] 
     public float absorptionCoefficient = 0.5f;
+
+    public float shadowDensity = 1.0f;
     [Range(0.0f, 3.0f)] 
     public float scatteringCoefficient = 0.5f;
     [Range(0.0f, 1.0f)]
@@ -145,7 +146,7 @@ public class Raymarching : MonoBehaviour
             {
                 for (int x = 0; x < renderTexture.width; x++)
                 {
-                    float rValue = texture2D.GetPixel(x, y).r;
+                    float rValue = 1 - texture2D.GetPixel(x, y).r;
                     Color grayscaleColor = new Color(rValue, 0, 0); // Red channel value to grayscale
                     grayscaleTexture.SetPixel(x, y, grayscaleColor);
                 }
@@ -180,7 +181,7 @@ public class Raymarching : MonoBehaviour
         _camera = GetComponent<Camera>();
         _light = GameObject.Find("Area Light");
         _camera.depthTextureMode = DepthTextureMode.Depth;
-
+        _lightPosition = _light.transform.position;
         
         // TODO initialize noise variables
         if (noiseTex != null)
@@ -237,23 +238,23 @@ public class Raymarching : MonoBehaviour
         
         // initialize
         _raymarchingCompute.SetTexture(2, "_SmokeTex", smokeTexQRes);
-        _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTexQRes.width), Mathf.CeilToInt(smokeTexQRes.height), 1);
+        _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTexQRes.width/32.0f), Mathf.CeilToInt(smokeTexQRes.height), 1);
 
         _raymarchingCompute.SetTexture(2, "_SmokeTex", smokeTexHRes);
-        _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTexHRes.width), Mathf.CeilToInt(smokeTexHRes.height), 1);
+        _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTexHRes.width/32.0f), Mathf.CeilToInt(smokeTexHRes.height), 1);
 
         _raymarchingCompute.SetTexture(2, "_SmokeTex", smokeTexScreenRes);
-        _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTexScreenRes.width), Mathf.CeilToInt(smokeTexScreenRes.height), 1);
+        _raymarchingCompute.Dispatch(2, Mathf.CeilToInt(smokeTexScreenRes.width/32.0f), Mathf.CeilToInt(smokeTexScreenRes.height), 1);
 
         
         _raymarchingCompute.SetTexture(1, "_SmokeMaskTex", smokeMaskTexQRes);
-        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeMaskTexQRes.width), Mathf.CeilToInt(smokeMaskTexQRes.height), 1);
+        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeMaskTexQRes.width/32.0f), Mathf.CeilToInt(smokeMaskTexQRes.height), 1);
 
         _raymarchingCompute.SetTexture(1, "_SmokeMaskTex", smokeMaskTexHRes);
-        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeMaskTexHRes.width), Mathf.CeilToInt(smokeMaskTexHRes.height), 1);
+        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeMaskTexHRes.width/32.0f), Mathf.CeilToInt(smokeMaskTexHRes.height), 1);
         
         _raymarchingCompute.SetTexture(1, "_SmokeMaskTex", smokeMaskTexScreenRes);
-        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeMaskTexScreenRes.width), Mathf.CeilToInt(smokeMaskTexScreenRes.height), 1);
+        _raymarchingCompute.Dispatch(1, Mathf.CeilToInt(smokeMaskTexScreenRes.width/32.0f), Mathf.CeilToInt(smokeMaskTexScreenRes.height), 1);
         
     }
 
@@ -299,30 +300,39 @@ public class Raymarching : MonoBehaviour
         _raymarchingCompute.SetVector("_CameraWorldPosition", this.transform.position);
         // light
         _raymarchingCompute.SetVector("_LightColor", lightColor);
+        _raymarchingCompute.SetVector("_LightPosition", _lightPosition);
         // raymarching parameters
         _raymarchingCompute.SetVector("_SmokeColor", smokeColor);
         _raymarchingCompute.SetVector("_ExtinctionColor", extinctionColor);
         _raymarchingCompute.SetFloat("_VolumeDensity", volumeDensity);
+        _raymarchingCompute.SetFloat("_ShadowDensity", shadowDensity);
         _raymarchingCompute.SetInt("_totalSteps", stepCount);
+        _raymarchingCompute.SetInt("_LightTotalSteps", lightStepCount);
         _raymarchingCompute.SetFloat("_stepSize", stepSize);
         _raymarchingCompute.SetFloat("_LightStepSize", lightStepSize);
         _raymarchingCompute.SetFloat("_AbsorptionCoefficient", absorptionCoefficient);
         _raymarchingCompute.SetFloat("_ScatteringCoefficient", scatteringCoefficient);
         _raymarchingCompute.SetFloat("_AlphaThreshold", alphaThreshold);
         
+        /*
         // binary ray march where SmokeMaskTex is set to 1 if encountered voxel
         _raymarchingCompute.SetTexture(3, "_SmokeMaskTex", smokeMaskTexQRes);
         _raymarchingCompute.SetBuffer(3, "_SmokeVoxels", _smokeVoxelsBuffer);
         _raymarchingCompute.SetInt("_TargetBufferWidth", smokeMaskTexQRes.width);
         _raymarchingCompute.SetInt("_TargetBufferHeight", smokeMaskTexQRes.height);
         _raymarchingCompute.Dispatch(3, Mathf.CeilToInt(smokeMaskTexQRes.width / 8.0f), Mathf.CeilToInt(smokeMaskTexQRes.height / 8.0f), 1);
-        
-        // supersampling (when textures are less than full resolution)
+        */
+        _raymarchingCompute.Dispatch(0, Mathf.CeilToInt(smokeMaskTexQRes.width / 8.0f), Mathf.CeilToInt(smokeMaskTexQRes.height / 8.0f), 1);
+
+        // supersampling
         // enlarge the textures before compositing the effects
         
         // default bilinear interpolation
         Graphics.Blit(smokeMaskTexQRes, smokeMaskTexHRes);
         Graphics.Blit(smokeMaskTexHRes, smokeMaskTexScreenRes);
+        Graphics.Blit(smokeMaskTexScreenRes, smokeMaskTexHRes);
+        Graphics.Blit(smokeMaskTexHRes, smokeMaskTexQRes);
+
         // bicubic interpolation 
         
         // composite effects
