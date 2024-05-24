@@ -119,10 +119,10 @@ int getVoxelValue(float3 position)
     
 }
 
-// Rayleigh phase function that shoots out light equally backwards and forwards
-float phaseFunction(float cos_theta)
+// Rayleigh phase function 
+float RayleighPhaseFunction(float cos_theta)
 {
-    return (3.0f / 4.0f) * (1 + cos_theta * cos_theta);
+    return (3.0f / (16.0f*PI)) * (1 + cos_theta * cos_theta);
 }
 
 
@@ -172,8 +172,7 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
         float lightStepSize = _LightStepSize; // step size when sampling ray towards the light
         int stepCount = 0;
         
-        
-        float extinctionCoefficient = _AbsorptionCoefficient;
+        float extinctionCoefficient = _AbsorptionCoefficient + _ScatteringCoefficient;
         
         while ((stepCount < _totalSteps) && traveledDistance < sceneIntersectionDistance)
         {
@@ -182,19 +181,40 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
             voxelValue = getVoxelValue(currentPosition);
             // add it to density sum
             int origVoxelVal = voxelValue;
-            accumulatedDensity = accumulatedDensity + voxelValue * _VolumeDensity;
+            accumulatedDensity = accumulatedDensity + voxelValue*_VolumeDensity;
             stepCount = stepCount + 1;
             traveledDistance = traveledDistance + stepSize;
-            thickness = thickness + _stepSize*voxelValue;
+            thickness = thickness + stepSize*voxelValue;
             // update alpha - transmittance at current position
-            alpha = exp(-thickness * accumulatedDensity * extinctionCoefficient);
-            
+            alpha = exp(-thickness * accumulatedDensity * _AbsorptionCoefficient);
+
+            float3 lightDirection = normalize(_LightPosition - currentPosition);
+            float cos_theta = dot(rayDirection, lightDirection);
+            float phase = RayleighPhaseFunction(cos_theta);
             
             // ray marching towards the  light
+            if (voxelValue > 0)
+            {
+                float t = 0.0f;
+                float3 positionToLight = currentPosition;
+                int lightStepCount = 0;
+                while (lightStepCount < _LightTotalSteps)
+                {
+                    t = t * voxelValue * _ShadowDensity;
+                    positionToLight = positionToLight - lightStepSize*lightDirection;
+                    voxelValue = getVoxelValue(positionToLight);
+                    lightStepCount = lightStepCount + 1;
+                }
 
+                float3 lightTransmittance = exp(-(t/_ExtinctionColor) * extinctionCoefficient * _ShadowDensity);
+                color = color + _LightColor * lightTransmittance * alpha * phase * _ScatteringCoefficient * _VolumeDensity * origVoxelVal;
+                
+                
+            }
+            
             if (alpha < _AlphaThreshold)
             {
-                break;
+                 break;
             }
 
             // adjustments
@@ -210,7 +230,7 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
         
     }
     // color
-    _SmokeTex[id.xy] = float4(saturate(color), 1.0f);
+    _SmokeTex[id.xy] = float4((color), 1.0f);
     // opacity values
     _SmokeMaskTex[id.xy] = saturate(alpha);
    

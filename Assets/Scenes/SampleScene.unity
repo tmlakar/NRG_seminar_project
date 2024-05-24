@@ -1909,7 +1909,7 @@ Transform:
   m_GameObject: {fileID: 1503278548}
   serializedVersion: 2
   m_LocalRotation: {x: -0.36328733, y: 0.60664845, z: -0.36328733, w: -0.60664845}
-  m_LocalPosition: {x: 2, y: 9, z: 0}
+  m_LocalPosition: {x: 0, y: 9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2684,18 +2684,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smokeVoxels: {fileID: 960745117}
   lightColor: {r: 0.9490196, g: 0.8627451, b: 0.5372549, a: 0}
-  smokeColor: {r: 0.2679245, g: 0.23538658, b: 0.20574579, a: 0}
+  smokeColor: {r: 0, g: 0, b: 0, a: 0}
   stepCount: 207
   stepSize: 0.05
   lightStepCount: 32
   lightStepSize: 0.05
   smokeSize: 30.2
-  volumeDensity: 7
-  absorptionCoefficient: 0.4
-  shadowDensity: 0
-  scatteringCoefficient: 0.54
+  volumeDensity: 5
+  absorptionCoefficient: 0.31
+  shadowDensity: 9
+  scatteringCoefficient: 0.43
   alphaThreshold: 0.15
-  extinctionColor: {r: 1, g: 0.9885189, b: 0.7830188, a: 1}
+  extinctionColor: {r: 0.8792453, g: 0.8792453, b: 0.8792453, a: 1}
   viewTexture: 0
   createRenders: 0
 --- !u!4 &2037165133 stripped

@@ -330,8 +330,6 @@ public class Raymarching : MonoBehaviour
         // default bilinear interpolation
         Graphics.Blit(smokeMaskTexQRes, smokeMaskTexHRes);
         Graphics.Blit(smokeMaskTexHRes, smokeMaskTexScreenRes);
-        Graphics.Blit(smokeMaskTexScreenRes, smokeMaskTexHRes);
-        Graphics.Blit(smokeMaskTexHRes, smokeMaskTexQRes);
 
         // bicubic interpolation 
         
