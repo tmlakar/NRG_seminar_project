@@ -15,6 +15,7 @@ public class Raymarching : MonoBehaviour
     private ComputeBuffer _smokeVoxelsBuffer;
     private Vector3 _boundsExtent;
     private Vector3 _voxelResolution;
+    private Vector3 _smokeOrigin;
 
     private Material _smokeMaterial;
     private ComputeShader _raymarchingCompute;
@@ -162,13 +163,20 @@ public class Raymarching : MonoBehaviour
             currentTexture2D.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0); 
             currentTexture2D.Apply();
                   
-          byte[] bytes = currentTexture2D.EncodeToPNG();
-          File.WriteAllBytes(filepath, bytes);
+            byte[] bytes = currentTexture2D.EncodeToPNG();
+            File.WriteAllBytes(filepath, bytes);
           
         }
         RenderTexture.active = null;
         Destroy(currentTexture2D);
         Debug.Log("RenderedTexture saved to: " + filepath);  
+    }
+
+
+    void GenerateNoise()
+    {
+        // set parameters and send them and the render texture off to compute buffer
+        
     }
     
     private void OnEnable()
@@ -183,15 +191,14 @@ public class Raymarching : MonoBehaviour
         _camera.depthTextureMode = DepthTextureMode.Depth;
         _lightPosition = _light.transform.position;
         
-        // TODO initialize noise variables
-        if (noiseTex != null)
-        {
-            // update noise 
-        }
-        else
-        {
-            // TODO: create new render texture
-        }
+        // noise
+        noiseTex = new RenderTexture(128, 128, 0, RenderTextureFormat.RHalf, RenderTextureReadWrite.Linear);
+        noiseTex.enableRandomWrite = true;
+        noiseTex.dimension = UnityEngine.Rendering.TextureDimension.Tex3D;
+        noiseTex.volumeDepth = 128;
+        noiseTex.Create();
+
+        GenerateNoise();
         
         // initialize all the variables for smoke rendering
         // render textures for albedo and smoke mask
@@ -268,9 +275,11 @@ public class Raymarching : MonoBehaviour
             _smokeVoxelsBuffer = smokeVoxels.GetSmokeVoxelBuffer();
             _boundsExtent = smokeVoxels.GetBoundsExtent();
             _voxelResolution = smokeVoxels.GetVoxelResolution();
+            _smokeOrigin = smokeVoxels.GetSmokeOrigin();
             _raymarchingCompute.SetBuffer(0, "_SmokeVoxels", _smokeVoxelsBuffer);
             _raymarchingCompute.SetVector("_BoundsExtent", _boundsExtent);
             _raymarchingCompute.SetVector("_VoxelResolution", _voxelResolution);
+            _raymarchingCompute.SetVector("_SmokeOrigin", _smokeOrigin);
         }
         
     }
@@ -304,8 +313,8 @@ public class Raymarching : MonoBehaviour
         // raymarching parameters
         _raymarchingCompute.SetVector("_SmokeColor", smokeColor);
         _raymarchingCompute.SetVector("_ExtinctionColor", extinctionColor);
-        _raymarchingCompute.SetFloat("_VolumeDensity", volumeDensity);
-        _raymarchingCompute.SetFloat("_ShadowDensity", shadowDensity);
+        _raymarchingCompute.SetFloat("_VolumeDensity", volumeDensity*stepSize);
+        _raymarchingCompute.SetFloat("_ShadowDensity", shadowDensity*lightStepSize);
         _raymarchingCompute.SetInt("_totalSteps", stepCount);
         _raymarchingCompute.SetInt("_LightTotalSteps", lightStepCount);
         _raymarchingCompute.SetFloat("_stepSize", stepSize);
@@ -328,17 +337,20 @@ public class Raymarching : MonoBehaviour
         // enlarge the textures before compositing the effects
         
         // default bilinear interpolation
-        Graphics.Blit(smokeMaskTexQRes, smokeMaskTexHRes);
-        Graphics.Blit(smokeMaskTexHRes, smokeMaskTexScreenRes);
+        Graphics.Blit(smokeMaskTexQRes, smokeMaskTexHRes, _smokeMaterial, 2);
+        Graphics.Blit(smokeMaskTexHRes, smokeMaskTexScreenRes, _smokeMaterial, 2);
 
-        // bicubic interpolation 
+        // bicubic filtering
+        Graphics.Blit(smokeTexQRes, smokeTexHRes, _smokeMaterial, 2);
+        Graphics.Blit(smokeTexHRes, smokeTexScreenRes, _smokeMaterial, 2);
+       
         
         // composite effects
         // set shader values to build final image Graphics.Blit(source, destination);
         _smokeMaterial.SetTexture("_SmokeTex", smokeTexQRes);
         _smokeMaterial.SetTexture("_SmokeMaskTex", smokeMaskTexScreenRes);
         _smokeMaterial.SetTexture("_DepthTex", depthTex);
-        _smokeMaterial.SetFloat("_Sharpness", 0.0f);
+        _smokeMaterial.SetFloat("_Sharpness", 0.1f);
         _smokeMaterial.SetFloat("_DebugView", (int)viewTexture);
         Graphics.Blit(source, destination, _smokeMaterial, 1);
 
@@ -348,6 +360,7 @@ public class Raymarching : MonoBehaviour
             //SaveRenderTextureToPNG(depthTex, "RenderedImages/sceneDepthMask.png");
             SaveRenderTextureToPNG(smokeMaskTexScreenRes, "RenderedImages/smokeMask.png");
             SaveRenderTextureToPNG(smokeTexScreenRes, "RenderedImages/smokeAlbedo.png");
+            //SaveRenderTextureToPNG(noiseTex, "RenderedImages/WorleyNoise.png");
             SaveSceneRenderToPNG("RenderedImages/scene.png");
             //debugSmokeMaskTex();
             //debugDepthTex();

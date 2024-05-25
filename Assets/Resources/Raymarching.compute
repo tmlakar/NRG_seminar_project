@@ -2,13 +2,14 @@
 #pragma kernel CS_InitializeSmokeMask
 #pragma kernel CS_InitializeSmokeAlbedo
 #pragma kernel CS_BinaryRayMarching
+#pragma kernel CS_NoiseGenerate
 
-#define MAX_DISTANCE 300
+#define MAX_DISTANCE 100
 #define PI 3.1415926538
 
 RWTexture2D<float4> Result;
 RWStructuredBuffer<int> _SmokeVoxels;
-float3 _BoundsExtent, _VoxelResolution;
+float3 _BoundsExtent, _VoxelResolution, _SmokeOrigin;
 
 // textures for generating and storing noise data
 RWTexture3D<half> _RWNoiseTex;
@@ -173,6 +174,9 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
         int stepCount = 0;
         
         float extinctionCoefficient = _AbsorptionCoefficient + _ScatteringCoefficient;
+        float3 lightDirection = normalize(_LightPosition - currentPosition);
+        float cos_theta = dot(rayDirection, lightDirection);
+        float phase = RayleighPhaseFunction(cos_theta);
         
         while ((stepCount < _totalSteps) && traveledDistance < sceneIntersectionDistance)
         {
@@ -181,16 +185,23 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
             voxelValue = getVoxelValue(currentPosition);
             // add it to density sum
             int origVoxelVal = voxelValue;
-            accumulatedDensity = accumulatedDensity + voxelValue*_VolumeDensity;
+            accumulatedDensity = accumulatedDensity + voxelValue * _VolumeDensity;
             stepCount = stepCount + 1;
             traveledDistance = traveledDistance + stepSize;
-            thickness = thickness + stepSize*voxelValue;
-            // update alpha - transmittance at current position
-            alpha = exp(-thickness * accumulatedDensity * _AbsorptionCoefficient);
 
-            float3 lightDirection = normalize(_LightPosition - currentPosition);
-            float cos_theta = dot(rayDirection, lightDirection);
-            float phase = RayleighPhaseFunction(cos_theta);
+            // adjustments
+            // if ray march has exceeded the scene depth, stop marching
+            // that way the smoke is properly obscured by existing objects
+            if (traveledDistance > sceneIntersectionDistance)
+            {
+                return;
+
+            }
+            
+            thickness = thickness + _stepSize*voxelValue;
+            // update alpha - transmittance at current position
+            alpha = exp(-thickness * accumulatedDensity * extinctionCoefficient);
+            
             
             // ray marching towards the  light
             if (voxelValue > 0)
@@ -200,10 +211,11 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
                 int lightStepCount = 0;
                 while (lightStepCount < _LightTotalSteps)
                 {
-                    t = t * voxelValue * _ShadowDensity;
-                    positionToLight = positionToLight - lightStepSize*lightDirection;
+                    t = t + voxelValue * _ShadowDensity;
+                    positionToLight = positionToLight + lightStepSize*lightDirection;
                     voxelValue = getVoxelValue(positionToLight);
                     lightStepCount = lightStepCount + 1;
+                    
                 }
 
                 float3 lightTransmittance = exp(-(t/_ExtinctionColor) * extinctionCoefficient * _ShadowDensity);
@@ -216,21 +228,13 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
             {
                  break;
             }
-
-            // adjustments
-            // if ray march has exceeded the scene depth, stop marching
-            // that way the smoke is properly obscured by existing objects
-            if (traveledDistance > sceneIntersectionDistance)
-            {
-                return;
-
-            }
+            
             
         }
         
     }
     // color
-    _SmokeTex[id.xy] = float4((color), 1.0f);
+    _SmokeTex[id.xy] = float4((saturate(color)), 1.0f);
     // opacity values
     _SmokeMaskTex[id.xy] = saturate(alpha);
    
@@ -291,3 +295,12 @@ void CS_BinaryRayMarching (uint3 id : SV_DispatchThreadID)
     }
    
 }
+
+
+[numthreads(8,8,8)]
+void CS_NoiseGenerate (uint3 id : SV_DispatchThreadID)
+{
+    
+}
+
+
