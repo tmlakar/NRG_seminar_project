@@ -2692,9 +2692,9 @@ MonoBehaviour:
   smokeSize: 30.2
   densityFalloff: 0.4
   volumeDensity: 100
-  absorptionCoefficient: 2.03
-  shadowDensity: 9
-  scatteringCoefficient: 0.51
+  absorptionCoefficient: 1.78
+  shadowDensity: 15
+  scatteringCoefficient: 1.03
   alphaThreshold: 0.097
   extinctionColor: {r: 1, g: 1, b: 1, a: 1}
   viewTexture: 0

@@ -158,7 +158,7 @@ float getDensity(float3 position)
     // normalized distance from the origin
     float distance = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
     
-    // density fallof
+    // density falloff
     distance = smoothstep(_DensityFalloff, 1.0f, distance);
     falloff = min(1.0f, distance);
     return saturate(saturate(voxelValue)*(1-falloff));
