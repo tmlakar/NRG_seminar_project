@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Camera))]
 public class Raymarching : MonoBehaviour
@@ -24,11 +25,14 @@ public class Raymarching : MonoBehaviour
     
     public Color lightColor;
     private Vector3 _lightPosition;
+    
     // parameters for noise generation
-    // [Header("Noise settings")] 
-    // [Space(5)] 
-    // public int seed;
-
+    [Header("Noise generation settings")] 
+    [Space(5)] 
+    private int textureResolution = 128;
+    private int cellResolution = 1;
+    private int axisCellCount = 8;
+    private float sliceDepth;
    
     // parameters for smoke rendering
     [Header("Smoke rendering settings")] 
@@ -69,6 +73,7 @@ public class Raymarching : MonoBehaviour
     private RenderTexture smokeTexQRes, smokeMaskTexQRes, smokeTexHRes, smokeMaskTexHRes, smokeTexScreenRes, smokeMaskTexScreenRes;
     private RenderTexture noiseTex, depthTex;
     private Texture2D debugTexture;
+    
     
     [Space(10)] 
     public ViewTexture viewTexture;
@@ -171,13 +176,7 @@ public class Raymarching : MonoBehaviour
         Destroy(currentTexture2D);
         Debug.Log("RenderedTexture saved to: " + filepath);  
     }
-
-
-    void GenerateNoise()
-    {
-        // set parameters and send them and the render texture off to compute buffer
-        
-    }
+    
     
     private void OnEnable()
     {
@@ -192,14 +191,16 @@ public class Raymarching : MonoBehaviour
         _lightPosition = _light.transform.position;
         
         // noise
-        noiseTex = new RenderTexture(128, 128, 0, RenderTextureFormat.RHalf, RenderTextureReadWrite.Linear);
+        noiseTex = new RenderTexture(128, 128, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
         noiseTex.enableRandomWrite = true;
-        noiseTex.dimension = UnityEngine.Rendering.TextureDimension.Tex3D;
-        noiseTex.volumeDepth = 128;
         noiseTex.Create();
-
-        GenerateNoise();
         
+        _raymarchingCompute.SetTexture(4, "_RWNoise2DTex", noiseTex);
+        _raymarchingCompute.SetInt("_Resolution", textureResolution);
+        _raymarchingCompute.SetInt("_CellResolution", cellResolution);
+        _raymarchingCompute.SetInt("_AxisCellCount", axisCellCount);
+        _raymarchingCompute.Dispatch(4, Mathf.CeilToInt(noiseTex.width/8.0f), Mathf.CeilToInt(noiseTex.height/8.0f), 1);
+            
         // initialize all the variables for smoke rendering
         // render textures for albedo and smoke mask
         // rgba
@@ -332,10 +333,9 @@ public class Raymarching : MonoBehaviour
         _raymarchingCompute.Dispatch(3, Mathf.CeilToInt(smokeMaskTexQRes.width / 8.0f), Mathf.CeilToInt(smokeMaskTexQRes.height / 8.0f), 1);
         */
         _raymarchingCompute.Dispatch(0, Mathf.CeilToInt(smokeMaskTexQRes.width / 8.0f), Mathf.CeilToInt(smokeMaskTexQRes.height / 8.0f), 1);
-
+        
         // supersampling
         // enlarge the textures before compositing the effects
-        
         // default bilinear interpolation
         Graphics.Blit(smokeMaskTexQRes, smokeMaskTexHRes, _smokeMaterial, 2);
         Graphics.Blit(smokeMaskTexHRes, smokeMaskTexScreenRes, _smokeMaterial, 2);
@@ -353,14 +353,13 @@ public class Raymarching : MonoBehaviour
         _smokeMaterial.SetFloat("_Sharpness", 0.1f);
         _smokeMaterial.SetFloat("_DebugView", (int)viewTexture);
         Graphics.Blit(source, destination, _smokeMaterial, 1);
-
         if (createRenders)
         {
             
             //SaveRenderTextureToPNG(depthTex, "RenderedImages/sceneDepthMask.png");
             SaveRenderTextureToPNG(smokeMaskTexScreenRes, "RenderedImages/smokeMask.png");
             SaveRenderTextureToPNG(smokeTexScreenRes, "RenderedImages/smokeAlbedo.png");
-            //SaveRenderTextureToPNG(noiseTex, "RenderedImages/WorleyNoise.png");
+            SaveRenderTextureToPNG(noiseTex, "RenderedImages/WorleyNoiseInverted.png");
             SaveSceneRenderToPNG("RenderedImages/scene.png");
             //debugSmokeMaskTex();
             //debugDepthTex();

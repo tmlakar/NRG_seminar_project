@@ -1154,7 +1154,7 @@ MonoBehaviour:
   voxelSize: 0.5
   drawStaticScene: 0
   drawSmoke: 0
-  MaxFillSteps: 16
+  MaxFillSteps: 18
   debugMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _selectedSmokeShape: 0
   smokeGrowthSpeed: 1.71
@@ -2636,7 +2636,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 49.02
+  far clip plane: 100
   field of view: 35
   orthographic: 0
   orthographic size: 5
@@ -2683,19 +2683,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smokeVoxels: {fileID: 960745117}
-  lightColor: {r: 0.9490196, g: 0.8627451, b: 0.5372549, a: 0}
-  smokeColor: {r: 0.18490559, g: 0.18490559, b: 0.18490559, a: 0}
+  lightColor: {r: 1, g: 1, b: 1, a: 0}
+  smokeColor: {r: 0.10188681, g: 0.10188681, b: 0.10188681, a: 0}
   stepCount: 207
-  stepSize: 0.05
+  stepSize: 0.045
   lightStepCount: 32
-  lightStepSize: 0.05
+  lightStepSize: 0.03
   smokeSize: 30.2
-  volumeDensity: 8
-  absorptionCoefficient: 0.5
-  shadowDensity: 6
-  scatteringCoefficient: 1
-  alphaThreshold: 0.118
-  extinctionColor: {r: 0.8792453, g: 0.8792453, b: 0.8792453, a: 1}
+  volumeDensity: 12
+  absorptionCoefficient: 0.72
+  shadowDensity: 9
+  scatteringCoefficient: 0.5
+  alphaThreshold: 0.05
+  extinctionColor: {r: 1, g: 1, b: 1, a: 1}
   viewTexture: 0
   createRenders: 0
 --- !u!4 &2037165133 stripped

@@ -2,21 +2,31 @@
 #pragma kernel CS_InitializeSmokeMask
 #pragma kernel CS_InitializeSmokeAlbedo
 #pragma kernel CS_BinaryRayMarching
-#pragma kernel CS_NoiseGenerate
+#pragma kernel CS_GenerateNoise2D
+#pragma kernel CS_GenerateNoise3D
 
-#define MAX_DISTANCE 100
+#define MAX_DISTANCE 200
 #define PI 3.1415926538
 
-RWTexture2D<float4> Result;
 RWStructuredBuffer<int> _SmokeVoxels;
 float3 _BoundsExtent, _VoxelResolution, _SmokeOrigin;
 
 // textures for generating and storing noise data
+// 3D
 RWTexture3D<half> _RWNoiseTex;
 Texture3D<half> _NoiseTex;
 SamplerState point_repeat_sampler;
 SamplerState linear_repeat_sampler;
 SamplerState linear_clamp_sampler;
+
+int _Resolution;
+int _CellResolution;
+int _AxisCellCount;
+int _Seed;
+// 2D
+RWTexture2D<float4> _RWNoise2DTex;
+Texture2D<float4> _Noise2DTex;
+
 
 //smoke textures
 // smoke color data
@@ -48,6 +58,11 @@ int _LightTotalSteps;
 float _stepSize, _LightStepSize;
 float _AbsorptionCoefficient, _ScatteringCoefficient;
 float _AlphaThreshold;
+
+// noise variables
+float3 _NoiseResolution;
+int _Octaves, _CellSize, _CellCountAxis;
+
 
 // transforms a position from NDC and device depth into world space coordinates
 float3 toWorldSpacePosition(float2 ndc, float depth)
@@ -253,7 +268,7 @@ void CS_InitializeSmokeAlbedo (uint3 id : SV_DispatchThreadID)
 }
 
 
-// just returns 1 when ray hits smoke voxels
+// test - just returns 1 when ray hits smoke voxels
 [numthreads(8,8,1)]
 void CS_BinaryRayMarching (uint3 id : SV_DispatchThreadID)
 {
@@ -296,11 +311,63 @@ void CS_BinaryRayMarching (uint3 id : SV_DispatchThreadID)
    
 }
 
-
-[numthreads(8,8,8)]
-void CS_NoiseGenerate (uint3 id : SV_DispatchThreadID)
+// random number generator
+float rand(uint seed)
 {
+    seed = (seed << 13) ^ seed;
+    return 1.0 - ((seed * (seed * seed * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0;
+}
+
+[numthreads(8,8,1)]
+void CS_GenerateNoise2D (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= 0 && id.x <= _Resolution && id.y >= 0 && id.y <= _Resolution)
+    {
+        // cell size
+        float cellSize = _Resolution / (float)_AxisCellCount;
+
+        // current cell index
+        int cellX = id.x / cellSize;
+        int cellY = id.y / cellSize;
+
+        // generate a random feature point within the cell
+        uint seed = uint(cellX * 73856093 ^ cellY * 19349663) + uint(_CellResolution);
+        float2 featurePoint = float2(cellX + rand(seed), cellY + rand(seed + 1)) * cellSize;
+
+        // min distance to the feature point
+        float minDist = distance(float2(id.x, id.y), featurePoint);
+
+        // check all neighboring cells for potentially closer feature points
+        for (int offsetX = -1; offsetX <= 1; offsetX++)
+        {
+            for (int offsetY = -1; offsetY <= 1; offsetY++)
+            {
+                int neighborCellX = cellX + offsetX;
+                int neighborCellY = cellY + offsetY;
+                if (neighborCellX >= 0 && neighborCellX < _AxisCellCount && neighborCellY >= 0 && neighborCellY < _AxisCellCount)
+                {
+                    uint neighborSeed = uint(neighborCellX * 73856093 ^ neighborCellY * 19349663) + uint(_CellResolution);
+                    float2 neighborFeaturePoint = float2(neighborCellX + rand(neighborSeed), neighborCellY + rand(neighborSeed + 1)) * cellSize;
+                    float dist = distance(float2(id.x, id.y), neighborFeaturePoint);
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                    }
+                }
+            }
+        }
+
+        // normalize the distance
+        float normalizedDist = minDist / (_Resolution / _AxisCellCount);
+
+        // invert the distance and write it to output texture
+        _RWNoise2DTex[id.xy] = 1 - float4(normalizedDist, normalizedDist, normalizedDist, 1.0);
+    }
     
 }
 
-
+[numthreads(8,8,8)]
+void CS_GenerateNoise3D (uint3 id : SV_DispatchThreadID)
+{
+    
+}

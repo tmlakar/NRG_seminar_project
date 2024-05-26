@@ -1,6 +1,494 @@
 Base path: 'C:/Program Files/Unity/Hub/Editor/2022.3.27f1/Editor/Data', plugins path 'C:/Program Files/Unity/Hub/Editor/2022.3.27f1/Editor/Data/PlaybackEngines'
 Cmd: initializeCompiler
 
-Cmd: compileSnippet
-  insize=3006 file=Assets/Resources/Custom/Effects pass=<Unnamed Pass 1> ppOnly=0 stripLineD=0 buildPlatform=19 rsLen=0 pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW= dKW=UNITY_NO_DXT5nm UNITY_FRAMEBUFFER_FETCH_AVAILABLE UNITY_METAL_SHADOWS_USE_POINT_FILTERING UNITY_NO_SCREENSPACE_SHADOWS UNITY_PBS_USE_BRDF2 UNITY_PBS_USE_BRDF3 UNITY_NO_FULL_STANDARD_SHADER UNITY_HARDWARE_TIER1 UNITY_HARDWARE_TIER2 UNITY_HARDWARE_TIER3 UNITY_COLORSPACE_GAMMA UNITY_HALF_PRECISION_FRAGMENT_SHADER_REGISTERS UNITY_LIGHTMAP_DLDR_ENCODING UNITY_LIGHTMAP_RGBM_ENCODING UNITY_VIRTUAL_TEXTURING UNITY_PRETRANSFORM_TO_DISPLAY_ORIENTATION UNITY_ASTC_NORMALMAP_ENCODING SHADER_API_GLES30 UNITY_UNIFIED_SHADER_PRECISION_MODEL flags=0 lang=0 type=Vertex platform=d3d11 reqs=33 mask=6 start=50 ok=1 outsize=682
+Cmd: compileComputeKernel
+  insize=10856 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=3438
 
+Cmd: compileComputeKernel
+  insize=10831 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=10831 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=10831 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=10831 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=8107
+
+Cmd: compileComputeKernel
+  insize=11793 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=11793 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=11793 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=11793 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=12486 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 2 plat 4 at Raymarching.compute(173): undeclared identifier 'seedPos'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=12486 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 2 plat 4 at Raymarching.compute(173): undeclared identifier 'seedPos'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=12486 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 2 plat 4 at Raymarching.compute(173): undeclared identifier 'seedPos'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=12486 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 2 plat 4 at Raymarching.compute(173): undeclared identifier 'seedPos'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=10965 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=10965 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=10965 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=10965 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=10990 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=10990 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=10990 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=10990 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=11022 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=11022 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=11022 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=11022 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(129): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=11000 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(130): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=11000 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=11000 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=11000 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(130): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=11047 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(134): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=11047 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=11047 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0 ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=11047 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(134): use of potentially uninitialized variable (getVoxelValue)
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=12868 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(319): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(330): undeclared identifier 'rand'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=12868 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(319): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(330): undeclared identifier 'rand'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=12868 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(319): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(330): undeclared identifier 'rand'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=12868 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(319): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(330): undeclared identifier 'rand'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=12868 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(319): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(330): undeclared identifier 'rand'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=12876 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(325): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(362): implicit truncation of vector type
+ ok=1 outsize=2992
+
+Cmd: compileComputeKernel
+  insize=12876 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(325): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(362): implicit truncation of vector type
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=12876 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(325): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(362): implicit truncation of vector type
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=12876 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(325): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(362): implicit truncation of vector type
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=12876 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(325): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(362): implicit truncation of vector type
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=12903 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): implicit truncation of vector type
+ ok=1 outsize=2992
+
+Cmd: compileComputeKernel
+  insize=12903 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): implicit truncation of vector type
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=12903 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): implicit truncation of vector type
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=12903 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): implicit truncation of vector type
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=12903 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): implicit truncation of vector type
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=12907 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3032
+
+Cmd: compileComputeKernel
+  insize=12907 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=12907 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=12907 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=12907 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13027 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3032
+
+Cmd: compileComputeKernel
+  insize=13027 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13027 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13027 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13027 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13048 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3292
+
+Cmd: compileComputeKernel
+  insize=13048 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13048 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13048 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13048 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13052 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3336
+
+Cmd: compileComputeKernel
+  insize=13052 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13052 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13052 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13052 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13062 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3336
+
+Cmd: compileComputeKernel
+  insize=13062 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13062 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13062 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13062 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13195 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(363): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3332
+
+Cmd: compileComputeKernel
+  insize=13195 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13195 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13195 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13195 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(135): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(326): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13119 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(323): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(360): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3332
+
+Cmd: compileComputeKernel
+  insize=13119 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(132): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(323): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13119 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(323): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13119 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(323): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13119 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(132): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(323): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13035 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(361): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3269
+
+Cmd: compileComputeKernel
+  insize=13035 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(133): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13035 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13035 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13035 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(133): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13029 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(335): syntax error: unexpected token 'featurePoint'
+  error: 2 plat 4 at Raymarching.compute(338): 'distance': no matching 2 parameter intrinsic function; Possible intrinsic functions are: distance(floatM|halfM|min10floatM|min16floatM, floatM|halfM|min10floatM|min16floatM)
+  error: 2 plat 4 at Raymarching.compute(338): undeclared identifier 'featurePoint'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13029 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(335): syntax error: unexpected token 'featurePoint'
+  error: 2 plat 4 at Raymarching.compute(338): 'distance': no matching 2 parameter intrinsic function; Possible intrinsic functions are: distance(floatM|halfM|min10floatM|min16floatM, floatM|halfM|min10floatM|min16floatM)
+  error: 2 plat 4 at Raymarching.compute(338): undeclared identifier 'featurePoint'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13029 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(335): syntax error: unexpected token 'featurePoint'
+  error: 2 plat 4 at Raymarching.compute(338): 'distance': no matching 2 parameter intrinsic function; Possible intrinsic functions are: distance(floatM|halfM|min10floatM|min16floatM, floatM|halfM|min10floatM|min16floatM)
+  error: 2 plat 4 at Raymarching.compute(338): undeclared identifier 'featurePoint'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13029 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(335): syntax error: unexpected token 'featurePoint'
+  error: 2 plat 4 at Raymarching.compute(338): 'distance': no matching 2 parameter intrinsic function; Possible intrinsic functions are: distance(floatM|halfM|min10floatM|min16floatM, floatM|halfM|min10floatM|min16floatM)
+  error: 2 plat 4 at Raymarching.compute(338): undeclared identifier 'featurePoint'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13029 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(335): syntax error: unexpected token 'featurePoint'
+  error: 2 plat 4 at Raymarching.compute(338): 'distance': no matching 2 parameter intrinsic function; Possible intrinsic functions are: distance(floatM|halfM|min10floatM|min16floatM, floatM|halfM|min10floatM|min16floatM)
+  error: 2 plat 4 at Raymarching.compute(338): undeclared identifier 'featurePoint'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13114 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(334): undeclared identifier 'cellZ'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13114 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(334): undeclared identifier 'cellZ'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13114 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(334): undeclared identifier 'cellZ'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13114 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(334): undeclared identifier 'cellZ'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13114 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 2 plat 4 at Raymarching.compute(334): undeclared identifier 'cellZ'
+ ok=0 outsize=0
+
+Cmd: compileComputeKernel
+  insize=13095 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(361): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3332
+
+Cmd: compileComputeKernel
+  insize=13095 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(133): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13095 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13095 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13095 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(133): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: compileComputeKernel
+  insize=13212 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise3D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=255
+
+Cmd: compileComputeKernel
+  insize=13212 file=Assets/Resources/Raymarching.compute kernel=CS_GenerateNoise2D ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+  error: 1 plat 4 at Raymarching.compute(361): integer divides may be much slower, try using uints if possible.
+ ok=1 outsize=3332
+
+Cmd: compileComputeKernel
+  insize=13212 file=Assets/Resources/Raymarching.compute kernel=CS_BinaryRayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(133): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=3438
+
+Cmd: compileComputeKernel
+  insize=13212 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeAlbedo ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=350
+
+Cmd: compileComputeKernel
+  insize=13212 file=Assets/Resources/Raymarching.compute kernel=CS_InitializeSmokeMask ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=352
+
+Cmd: compileComputeKernel
+  insize=13212 file=Assets/Resources/Raymarching.compute kernel=CS_RayMarching ppOnly=0 stripLineD=0 buildPlatform=19 km=<UNITY_VERSION=202239> pKW=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR uKW=SHADER_STAGE_COMPUTE platform=d3d11 flags=0 reqs=16385 forceDXC=0 forceFXC=0  error: 1 plat 4 at Raymarching.compute(133): use of potentially uninitialized variable (getVoxelValue)
+  error: 1 plat 4 at Raymarching.compute(324): signed/unsigned mismatch, unsigned assumed
+ ok=1 outsize=8199
+
+Cmd: shutdown
