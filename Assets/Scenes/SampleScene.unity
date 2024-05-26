@@ -2690,11 +2690,12 @@ MonoBehaviour:
   lightStepCount: 32
   lightStepSize: 0.03
   smokeSize: 30.2
-  volumeDensity: 12
-  absorptionCoefficient: 0.72
+  densityFalloff: 0.4
+  volumeDensity: 100
+  absorptionCoefficient: 2.03
   shadowDensity: 9
-  scatteringCoefficient: 0.5
-  alphaThreshold: 0.05
+  scatteringCoefficient: 0.51
+  alphaThreshold: 0.097
   extinctionColor: {r: 1, g: 1, b: 1, a: 1}
   viewTexture: 0
   createRenders: 0

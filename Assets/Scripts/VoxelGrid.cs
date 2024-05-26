@@ -112,6 +112,11 @@ public class VoxelGrid : MonoBehaviour
         return EasingFunction(_radius);
     }
 
+    public int GetMaxFill()
+    {
+        return MaxFillSteps;
+    }
+
    private void OnEnable()
    {
        _radius = 0.0f;

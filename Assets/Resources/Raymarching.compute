@@ -9,12 +9,13 @@
 #define PI 3.1415926538
 
 RWStructuredBuffer<int> _SmokeVoxels;
-float3 _BoundsExtent, _VoxelResolution, _SmokeOrigin;
+float3 _BoundsExtent, _VoxelResolution, _SmokeOrigin, _Radius;
+int _MaxFillStep;
 
 // textures for generating and storing noise data
 // 3D
-RWTexture3D<half> _RWNoiseTex;
-Texture3D<half> _NoiseTex;
+RWTexture3D<float4> _RWNoiseTex;
+Texture3D<float4> _NoiseTex;
 SamplerState point_repeat_sampler;
 SamplerState linear_repeat_sampler;
 SamplerState linear_clamp_sampler;
@@ -25,7 +26,6 @@ int _AxisCellCount;
 int _Seed;
 // 2D
 RWTexture2D<float4> _RWNoise2DTex;
-Texture2D<float4> _Noise2DTex;
 
 
 //smoke textures
@@ -49,6 +49,7 @@ float3 _LightPosition;
 
 float3 _SmokeColor, _ExtinctionColor;
 float _VolumeDensity, _ShadowDensity;
+float _DensityFalloff;
 
 // width and height of texture resolution
 int _TargetBufferWidth, _TargetBufferHeight;
@@ -141,6 +142,27 @@ float RayleighPhaseFunction(float cos_theta)
     return (3.0f / (16.0f*PI)) * (1 + cos_theta * cos_theta);
 }
 
+// include voxel value, distance from the volume center, density falloff function
+float getDensity(float3 position)
+{
+    
+    // current voxel value
+    int voxelValue = getVoxelValue(position);
+    
+    float falloff = 0.0f;
+    // vector from smoke origin to current position
+    float3 v = position - _SmokeOrigin;
+    float3 radius = _Radius;
+    v = v / radius;
+    
+    // normalized distance from the origin
+    float distance = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    
+    // density fallof
+    distance = smoothstep(_DensityFalloff, 1.0f, distance);
+    falloff = min(1.0f, distance);
+    return saturate(saturate(voxelValue)*(1-falloff));
+}
 
 [numthreads(8,8,1)]
 void CS_RayMarching (uint3 id : SV_DispatchThreadID)
@@ -199,8 +221,9 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
             // we convert our position to voxel space, we get the voxel value at our step
             voxelValue = getVoxelValue(currentPosition);
             // add it to density sum
-            int origVoxelVal = voxelValue;
-            accumulatedDensity = accumulatedDensity + voxelValue * _VolumeDensity;
+            float sampleDensity = getDensity(currentPosition);
+            float density = sampleDensity;
+            accumulatedDensity = accumulatedDensity + sampleDensity * _VolumeDensity;
             stepCount = stepCount + 1;
             traveledDistance = traveledDistance + stepSize;
 
@@ -219,22 +242,22 @@ void CS_RayMarching (uint3 id : SV_DispatchThreadID)
             
             
             // ray marching towards the  light
-            if (voxelValue > 0)
+            if (density > 0.001f)
             {
                 float t = 0.0f;
                 float3 positionToLight = currentPosition;
                 int lightStepCount = 0;
                 while (lightStepCount < _LightTotalSteps)
                 {
-                    t = t + voxelValue * _ShadowDensity;
+                    t = t + density * _ShadowDensity;
                     positionToLight = positionToLight + lightStepSize*lightDirection;
-                    voxelValue = getVoxelValue(positionToLight);
+                    density = getDensity(positionToLight);
                     lightStepCount = lightStepCount + 1;
                     
                 }
 
                 float3 lightTransmittance = exp(-(t/_ExtinctionColor) * extinctionCoefficient * _ShadowDensity);
-                color = color + _LightColor * lightTransmittance * alpha * phase * _ScatteringCoefficient * _VolumeDensity * origVoxelVal;
+                color = color + _LightColor * lightTransmittance * alpha * phase * _ScatteringCoefficient * _VolumeDensity * sampleDensity;
                 
                 
             }
@@ -369,5 +392,50 @@ void CS_GenerateNoise2D (uint3 id : SV_DispatchThreadID)
 [numthreads(8,8,8)]
 void CS_GenerateNoise3D (uint3 id : SV_DispatchThreadID)
 {
-    
+    // same logic as 2d just for 3 dimensions
+    if (id.x >= 0 && id.x <= _Resolution &&
+        id.y >= 0 && id.y <= _Resolution &&
+        id.z >= 0 && id.z <= _Resolution)
+    {
+        
+        float cellSize = _Resolution / (float)_AxisCellCount;
+        
+        int cellX = id.x / cellSize;
+        int cellY = id.y / cellSize;
+        int cellZ = id.z / cellSize;
+        
+        uint seed = uint(cellX * 73856093 ^ cellY * 19349663 ^ cellZ * 83492791) + uint(_CellResolution);
+        float3 featurePoint = float3(cellX + rand(seed), cellY + rand(seed + 1), cellZ + rand(seed + 2)) * cellSize;
+
+        float minDist = distance(float3(id.x, id.y, id.z), featurePoint);
+
+        for (int offsetX = -1; offsetX <= 1; offsetX++)
+        {
+            for (int offsetY = -1; offsetY <= 1; offsetY++)
+            {
+                for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
+                {
+                    int neighborCellX = cellX + offsetX;
+                    int neighborCellY = cellY + offsetY;
+                    int neighborCellZ = cellZ + offsetZ;
+                    if (neighborCellX >= 0 && neighborCellX < _AxisCellCount && neighborCellY >= 0 && neighborCellY < _AxisCellCount && neighborCellZ >= 0 && neighborCellZ < _AxisCellCount)
+                    {
+                        uint neighborSeed = uint(neighborCellX * 73856093 ^ neighborCellY * 19349663 ^ neighborCellZ * 83492791) + uint(_CellResolution);
+                        float3 neighborFeaturePoint = float3(neighborCellX + rand(neighborSeed), neighborCellY + rand(neighborSeed + 1), neighborCellZ + rand(neighborSeed + 2)) * cellSize;
+                        float dist = distance(float3(id.x, id.y, id.z), neighborFeaturePoint);
+                        if (dist < minDist)
+                        {
+                            minDist = dist;
+                        }
+                    }
+                }
+            }
+        }
+
+        // normalize + invert
+        float normalizedDist = minDist / cellSize;
+        float invertedDist = 1.0 - normalizedDist;
+
+        _RWNoiseTex[id.xyz] = float4(invertedDist, invertedDist, invertedDist, 1.0);
+    }
 }

@@ -57,6 +57,8 @@ public class Raymarching : MonoBehaviour
 
     [Range(0.01f, 64.0f)] 
     public float smokeSize = 32.0f;
+
+    public float densityFalloff;
     public float volumeDensity = 1.0f;
     // absorption and scattering
     [Range(0.0f, 3.0f)] 
@@ -71,7 +73,7 @@ public class Raymarching : MonoBehaviour
     
 
     private RenderTexture smokeTexQRes, smokeMaskTexQRes, smokeTexHRes, smokeMaskTexHRes, smokeTexScreenRes, smokeMaskTexScreenRes;
-    private RenderTexture noiseTex, depthTex;
+    private RenderTexture noiseTex, noise3DTex, depthTex;
     private Texture2D debugTexture;
     
     
@@ -190,8 +192,8 @@ public class Raymarching : MonoBehaviour
         _camera.depthTextureMode = DepthTextureMode.Depth;
         _lightPosition = _light.transform.position;
         
-        // noise
-        noiseTex = new RenderTexture(128, 128, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
+        // noise 2d
+        noiseTex = new RenderTexture(textureResolution, textureResolution, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear);
         noiseTex.enableRandomWrite = true;
         noiseTex.Create();
         
@@ -200,7 +202,18 @@ public class Raymarching : MonoBehaviour
         _raymarchingCompute.SetInt("_CellResolution", cellResolution);
         _raymarchingCompute.SetInt("_AxisCellCount", axisCellCount);
         _raymarchingCompute.Dispatch(4, Mathf.CeilToInt(noiseTex.width/8.0f), Mathf.CeilToInt(noiseTex.height/8.0f), 1);
-            
+        
+        // noise 3d
+        noise3DTex = new RenderTexture(textureResolution, textureResolution, 0, RenderTextureFormat.ARGBFloat,
+            RenderTextureReadWrite.Linear);
+        noise3DTex.enableRandomWrite = true;
+        noise3DTex.dimension = UnityEngine.Rendering.TextureDimension.Tex3D;
+        noise3DTex.volumeDepth = textureResolution;
+        noise3DTex.Create();
+        
+        _raymarchingCompute.SetTexture(4, "_RWNoise3DTex", noiseTex);
+        
+        
         // initialize all the variables for smoke rendering
         // render textures for albedo and smoke mask
         // rgba
@@ -281,6 +294,8 @@ public class Raymarching : MonoBehaviour
             _raymarchingCompute.SetVector("_BoundsExtent", _boundsExtent);
             _raymarchingCompute.SetVector("_VoxelResolution", _voxelResolution);
             _raymarchingCompute.SetVector("_SmokeOrigin", _smokeOrigin);
+            _raymarchingCompute.SetVector("_Radius", smokeVoxels.GetSmokeRadius());
+            _raymarchingCompute.SetInt("_MaxFillStep", smokeVoxels.GetMaxFill());
         }
         
     }
@@ -300,6 +315,7 @@ public class Raymarching : MonoBehaviour
         _raymarchingCompute.SetBuffer(0, "_SmokeVoxels", _smokeVoxelsBuffer);
         _raymarchingCompute.SetInt("_TargetBufferWidth", smokeTexQRes.width);
         _raymarchingCompute.SetInt("_TargetBufferHeight", smokeTexQRes.height);
+        _raymarchingCompute.SetTexture(0, "_NoiseTex", noise3DTex);
         _raymarchingCompute.SetTexture(0, "_SmokeTex", smokeTexQRes);
         _raymarchingCompute.SetTexture(0, "_DepthTex", depthTex);
         _raymarchingCompute.SetTexture(0, "_SmokeMaskTex", smokeMaskTexQRes);
@@ -315,6 +331,7 @@ public class Raymarching : MonoBehaviour
         _raymarchingCompute.SetVector("_SmokeColor", smokeColor);
         _raymarchingCompute.SetVector("_ExtinctionColor", extinctionColor);
         _raymarchingCompute.SetFloat("_VolumeDensity", volumeDensity*stepSize);
+        _raymarchingCompute.SetFloat("_DensityFalloff", densityFalloff);
         _raymarchingCompute.SetFloat("_ShadowDensity", shadowDensity*lightStepSize);
         _raymarchingCompute.SetInt("_totalSteps", stepCount);
         _raymarchingCompute.SetInt("_LightTotalSteps", lightStepCount);
