@@ -12,3 +12,7 @@ ____
 - ray marching
 - worley noise generation
 
+___
+
+### Running instructions:
+- run the Unity project in Unity Editor v2022.3.27
